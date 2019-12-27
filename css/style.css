@@ -1,0 +1,34 @@
+h1 {
+    color: red;
+    background-color: lightBlue;
+    border: 5px solid black;
+    padding: 5px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+h2 {
+    color: blue;
+}
+
+p, h1, h2 {
+    font-family: impact;
+}
+
+img {
+    box-shadow: 10px 10px 15px grey;
+}
+
+p, img, ul, ol {
+    margin-left: 50px;
+}
+
+.specialPara {
+    color: pink;
+    font-family: cursive;
+    font-size: 25px;
+}
+
+#secondPara {
+    color: brown;
+}
