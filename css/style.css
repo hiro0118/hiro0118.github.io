@@ -15,15 +15,15 @@ p, h1, h2 {
     font-family: impact;
 }
 
-.shadowimg {
-    box-shadow: 10px 10px 15px grey;
-}
-
 p, img, ul, ol {
     margin-left: 50px;
 }
 
-.specialPara {
+.shadowimg {
+    box-shadow: 10px 10px 15px grey;
+}
+
+.cutePara {
     color: pink;
     font-family: cursive;
     font-size: 25px;
