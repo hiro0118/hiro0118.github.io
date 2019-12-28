@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width">
     <title>hiro0118 github.io page</title>
     <link rel="stylesheet" href="css/style.css" />
+
+    <script>
+        function change() {
+            var title = document.querySelector("puppy");
+            title.innerHTML += "<br>If you don't appreciate this puppy, you're a jerk.";
+        }
+    </script>
 </head>
 <body>
     <h1>Hiroshi Fuji</h1>
 
     <a href="https://www.linkedin.com/in/hiroshi-fuji-25a01093/">
-        <img alt="linkedInIcon" src="fig/LinkedInLogo.png" width="30"/>
+        <img alt="linkedInIcon" src="fig/LinkedInLogo.png" width="30" />
     </a>
 
     <p>
@@ -36,8 +43,12 @@
     </ol>
 
     <h2>h2-heading2</h2>
-    <p class="cutePara">pic of puppy</p>
+    <p id="puppy" class="cutePara">pic of puppy</p>
     <img class="shadowimg" width=100 alt="puppy"
          src="https://cdn2-www.dogtime.com/assets/uploads/2011/03/puppy-development.jpg">
+
+    <button onclick="change();">Click me</button>
+
+
 </body>
 </html>
