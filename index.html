@@ -1,56 +1,95 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>hiro0118 github.io page</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/script.js"></script>
-
-    <script>
-        function change() {
-            var title = document.querySelector("#puppy");
-            title.innerHTML += "<br>If you don't appreciate this puppy, you're a jerk.";
-        }
-    </script>
 </head>
+
 <body>
-    <h1>Hiroshi Fuji</h1>
+    <div class="Top">
 
-    <a href="https://www.linkedin.com/in/hiroshi-fuji-25a01093/">
-        <img alt="linkedInIcon" src="images/LinkedInLogo.png" width="30" />
-    </a>
+        <div class="Header">
+            <h1>Hiroshi Fuji</h1>
+            <p>personal website</p>
+        </div>
 
-    <p>
-        paragraph1
-        <br>
-        next line(br)
-    </p>
+        <div class="MenuList">
+            <ul>
+                <li><a href="#Home">Home</a></li>
+                <li><a href="#Biography">Biography</a></li>
+                <li><a href="#Skills">Skills</a></li>
+                <li><a href="#Projects">Projects</a></li>
+                <li><a href="#Links">Links</a></li>
+            </ul>
+        </div>
+    </div>
 
-    <h2>h2-heading1</h2>
-    <p>
-        another paragraph
-    </p>
+    <h2 id="Home">Welcome!</h2>
+    <p>On this personal website, I am planning to post things that I'm interested in.</p>
 
-    <ul>
-        <li>ul item1</li>
-        <li>ul item2</li>
-        <li>ul item3</li>
-    </ul>
+    <h2 id="Biography">Biography</h2>
+    <p>This will be updated with more details...</p>
 
+    <h3>Education</h3>
+    <table>
+        <tr>
+            <td>2009 - 2013</td>
+            <td>Nagoya University, Mechanical Engineering</td>
+        </tr>
+        <tr>
+            <td>2013 - 2015</td>
+            <td>Nagoya Univeristy, Mechanical Engineering</td>
+        </tr>
+        <tr>
+            <td>2014</td>
+            <td>University of California Los Angeles<br>
+                Visiting Graduate Researcher</td>
+        </tr>
+    </table>
+
+    <h3>Professional Experience</h3>
+    <table>
+        <tr>
+            <td>2015 - 2018</td>
+            <td>Software Engineer @ Komatsu Ltd.</td>
+        </tr>
+        <tr>
+            <td>2018 - Current</td>
+            <td>Software Engineer II @ Modular Mining</td>
+        </tr>
+    </table>
+
+    <h2 id="Skills">Skills</h2>
     <ol>
-        <li>ol item1</li>
-        <li>ol item2</li>
+        <li>Java</li>
+        <li>Git</li>
+        <li>Linux</li>
+        <li>Concurrent Programming</li>
+        <li>Object Oriented Programming</li>
     </ol>
 
-    <h2>h2-heading2</h2>
-    <p id="puppy" class="cutePara">pic of puppy</p>
-    <img class="shadowimg" width=100 alt="puppy"
-         src="https://cdn2-www.dogtime.com/assets/uploads/2011/03/puppy-development.jpg">
+    <h2 id="Projects">Projects</h2>
 
-    <button onclick="change();">Click me</button>
-
-    <button onclick="addSomeText();">run js</button>
+    <h2 id="Links">Links</h2>
+    <ul class="LinkList">
+        <li>
+            <a href="https://www.linkedin.com/in/hiroshi-fuji-25a01093/">
+                <img alt="linkedInIcon" src="images/LinkedInLogo.png" height="55" />
+            </a>
+            <p><a href="https://www.linkedin.com/in/hiroshi-fuji-25a01093/">LinkedIn</a></p>
+        </li>
+        <li>
+            <a href="https://github.com/hiro0118/">
+                <img alt="githubIcon" src="images/GitHub-Mark-64px.png" height="60" />
+            </a>
+            <p><a href="https://github.com/hiro0118/">GitHub</a></p>
+        </li>
+    </ul>
 
 </body>
+
 </html>

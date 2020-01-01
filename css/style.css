@@ -1,34 +1,109 @@
-h1 {
-    color: red;
-    background-color: lightBlue;
-    border: 5px solid black;
-    padding: 5px;
-    border-radius: 15px;
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: roboto;
     text-align: center;
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 50px;
 }
 
 h2 {
-    color: blue;
+    margin-top: 40px;
+    margin-bottom: 5px;
 }
 
-p, h1, h2 {
-    font-family: impact;
+h3 {
+    margin-top: 20px;
+    margin-bottom: 5px;
 }
 
-p, img, ul, ol {
-    margin-left: 50px;
+a:link {
+    text-decoration: none;
 }
 
-.shadowimg {
-    box-shadow: 10px 10px 15px grey;
+.Top {
+    background-color: #555;
+    color: white;
 }
 
-.cutePara {
-    color: pink;
-    font-family: cursive;
-    font-size: 25px;
+.Header {
+    padding: 30px;
 }
 
-#secondPara {
-    color: brown;
+.MenuList ul {
+    font-size: 20px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
+
+.MenuList li {
+    float: left;
+}
+
+.MenuList li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.MenuList li a:hover {
+    background-color: #333;
+}
+
+.LinkList {
+    font-size: 20px;
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    top: 0;
+}
+
+.LinkList li {
+    display: inline-block;
+    list-style-type: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
