@@ -16,13 +16,18 @@ h1 {
 }
 
 h2 {
-    margin-top: 40px;
-    margin-bottom: 5px;
+    color: darkblue;
+    font-size: 35px;
+    padding-top: 30px;
+    padding-bottom: 10px;
 }
 
-h3 {
-    margin-top: 20px;
-    margin-bottom: 5px;
+h3, table {
+    margin: 20px;
+}
+
+p {
+    margin:5px;
 }
 
 a:link {
@@ -36,9 +41,11 @@ a:link {
 
 .Header {
     padding: 30px;
+    background-color: #555;
+    color: white;
 }
 
-.MenuList ul {
+.MenuList {
     font-size: 20px;
     list-style-type: none;
     margin: 0;
@@ -47,6 +54,7 @@ a:link {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+    background-color: #555;
 }
 
 .MenuList li {
@@ -106,4 +114,13 @@ th, td {
     border-bottom: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-  }
+}
+
+:target {
+    padding-top: 55px;
+    margin-top: -55px;
+}
+
+.centerList {
+    list-style-type: circle;
+}
