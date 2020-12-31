@@ -4,89 +4,167 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>hiro0118 github.io page</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <meta name="author" content="Hiroshi Fuji">
+    <title>Hiroshi Fuji's webpage</title>
     <script src="js/script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Hiroshi Fuji</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#work">Work</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#education">Education</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <div class="Header">
-        <h1>Hiroshi Fuji</h1>
-        <p>personal website</p>
-    </div>
-    <ul class="MenuList">
-        <li><a href="#Home">Home</a></li>
-        <li><a href="#Biography">Biography</a></li>
-        <li><a href="#Skills">Skills</a></li>
-        <li><a href="#Projects">Projects</a></li>
-        <li><a href="#Links">Links</a></li>
-    </ul>
+    <main class="container">
 
+        <h1 id="profile">PROFILE</h1>
+        <p class="lead">Dedicated software engineer with 5+ years of professional experience in software development.
+            Detail-oriented in designing, implementing and testing software applications. Substantial experience in
+            cross-cultural work environment with strong written and oral communication skills. </p>
 
-    <h2 id="Home">Welcome!</h2>
-    <p>On this personal website, I am planning to post things that I'm interested in.</p>
+        <h1 id="work">WORK EXPERIENCE</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="col" style="width: 10%">Years</th>
+                    <th scope="col" style="width: 15%">Company</th>
+                    <th scope="col" style="width: 15%">Title</th>
+                    <th scope="col" style="width: 60%">Responsibilities</th>
+                </tr>
+                <tr>
+                    <td scope="row">2018 - current</td>
+                    <td>
+                        <a href="https://www.modularmining.com/">Modular Mining Inc.</a>
+                    </td>
+                    <td>Software Engineer II</td>
+                    <td style="word-wrap: break-word">Requirement analysis, design, implementation, tests,
+                        documentation, architecture design,
+                        techinical supervision of the team</td>
+                </tr>
+                <tr>
+                    <td scope="row">2015 - 2018</td>
+                    <td>
+                        <a href="https://home.komatsu/en/ Komatsu Ltd.">Komatsu Ltd.</a>
+                    </td>
+                    <td>Software Engineer</td>
+                    <td style="word-wrap: break-word">Requirement analysis, design, implementation, tests,
+                        documentation, etc.</td>
+                </tr>
+                </tr>
+            </tbody>
+        </table>
 
-    <h2 id="Biography">Biography</h2>
-    <p>This will be updated with more details...</p>
+        <h1 id="skills">SOFTWARE SKILLS</h1>
+        <div class="row">
+            <div class="col-md-5">
+                <p>Skills with profesional experiences:</p>
+                <ul>
+                    <li>Java</li>
+                    <li>JVM Memory Management (Garbage Collection)</li>
+                    <li>Concurrent Programming</li>
+                    <li>Object Oriented Programming</li>
+                    <li>Git</li>
+                    <li>Linux</li>
+                    <li>Restful API</li>
+                    <li>MySQL</li>
+                </ul>
 
-    <h3>Education</h3>
-    <table>
-        <tr>
-            <td>2009 - 2013</td>
-            <td>Nagoya University, Mechanical Engineering</td>
-        </tr>
-        <tr>
-            <td>2013 - 2015</td>
-            <td>Nagoya Univeristy, Mechanical Engineering</td>
-        </tr>
-        <tr>
-            <td>2014</td>
-            <td>University of California Los Angeles<br>
-                Visiting Graduate Researcher</td>
-        </tr>
-    </table>
+            </div>
+            <div class="col-md-5">
+                <p>Skills learned through personal projects:</p>
+                <ul>
+                    <li>Spring Boot</li>
+                    <li>Docker</li>
+                    <li>HTML, CSS and Javascript</li>
+                </ul>
+            </div>
+        </div>
 
-    <h3>Professional Experience</h3>
-    <table>
-        <tr>
-            <td>2015 - 2018</td>
-            <td>Software Engineer @ Komatsu Ltd.</td>
-        </tr>
-        <tr>
-            <td>2018 - Current</td>
-            <td>Software Engineer II @ Modular Mining</td>
-        </tr>
-    </table>
+        <h1 id="education">EDUCATION</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="col">Years</th>
+                    <th scope="col">Institution</th>
+                    <th scope="col">Degree/Title</th>
+                </tr>
+                <tr>
+                    <td scope="row">2013 - 2015</td>
+                    <td>
+                        <a href="http://en.nagoya-u.ac.jp/">Nagoya University</a>,
+                        Electronic-Mechanical Engineering
+                    </td>
+                    <td>Master's degree</td>
+                </tr>
+                <tr>
+                    <td scope="row">2014</td>
+                    <td>
+                        <a href="https://www.ucla.edu/">University of California, Los Angeles</a>
+                    </td>
+                    <td>Visiting Graduate Researcher</td>
+                </tr>
+                <tr>
+                    <td scope="row">2009 - 2013</td>
+                    <td>
+                        <a href="http://en.nagoya-u.ac.jp/">Nagoya University</a>,
+                        Electronic-Mechanical Engineering
+                    </td>
+                    <td>Bachelor's degree</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <h2 id="Skills">Skills</h2>
-    <ul class="centerList">
-        <li>Java</li>
-        <li>Git</li>
-        <li>Linux</li>
-        <li>Concurrent Programming</li>
-        <li>Object Oriented Programming</li>
-    </ul>
+        <h1 id="hobbies">HOBBIES</h1>
+        <ul>
+            <li>Tennis</li>
+            <li>Traveling</li>
+            <li>Personal Software Projects</li>
+        </ul>
 
-    <h2 id="Projects">Projects</h2>
-    <p>Will be adding exciting projexts, hopefully...</p>
-
-    <h2 id="Links">Links</h2>
-    <ul class="LinkList">
-        <li>
-            <a href="https://www.linkedin.com/in/hiroshi-fuji-25a01093/">
-                <img alt="linkedInIcon" src="images/LinkedInLogo.png" height="55" />
-            </a>
-            <p><a href="https://www.linkedin.com/in/hiroshi-fuji-25a01093/">LinkedIn</a></p>
-        </li>
-        <li>
-            <a href="https://github.com/hiro0118/">
-                <img alt="githubIcon" src="images/GitHub-Mark-64px.png" height="60" />
-            </a>
-            <p><a href="https://github.com/hiro0118/">GitHub</a></p>
-        </li>
-    </ul>
-
+        <footer class="footer text-center">
+            <div class="container">
+                <ul class="list-inline mb-5">
+                    <li class="list-inline-item">
+                        <a href="https://www.linkedin.com/in/hiroshi-fuji-25a01093/">
+                            <img alt="linkedInIcon" src="images/LinkedInLogo.png" height="55" />
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://github.com/hiro0118/">
+                            <img alt="githubIcon" src="images/GitHub-Mark-64px.png" height="60" />
+                        </a>
+                    </li>
+                </ul>
+                <p class="text-muted small mb-0">Copyright &copy; Your Website 2020</p>
+            </div>
+        </footer>
 </body>
 
 </html>
