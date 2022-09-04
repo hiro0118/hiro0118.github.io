@@ -1,5 +1,5 @@
 import { ProfilePage } from "./profile-page/ProfilePage";
-import { TokyoSportsPage } from "./tokyo-sports-page/TokyoSportsPage";
+import { TennisCourtsPage } from "./tokyo-sports-page/TokyoSportsPage";
 import { WorkInProgressPage } from "./wip-page/WorkInProgressPage";
 import { PageInfo } from "../components/menu-bar/PageInfo";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -14,10 +14,10 @@ export const pages: PageInfo[] = [
     element: ProfilePage,
   },
   {
-    title: "Tokyo Sports",
-    path: "tokyo-sports",
+    title: "Tennis Courts",
+    path: "tennis-courts",
     icon: SportsTennisIcon,
-    element: TokyoSportsPage,
+    element: TennisCourtsPage,
   },
   {
     title: "Page3",

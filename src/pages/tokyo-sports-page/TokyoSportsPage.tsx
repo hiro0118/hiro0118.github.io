@@ -5,7 +5,7 @@ import { FilterAccordion } from './FilterAccordion';
 import { useState } from 'react';
 import { SortableTable } from './SortableTable';
 
-export const TokyoSportsPage = () => {
+export const TennisCourtsPage = () => {
 
   const allItems: CourtData[] = getCourtData();
   const [visibleItems, setVisibleItems] = useState<CourtData[]>(allItems);

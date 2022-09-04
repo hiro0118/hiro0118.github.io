@@ -1,6 +1,6 @@
-import { AccordionSummary, Typography, AccordionDetails, FormControlLabel, Checkbox, Accordion, FormGroup } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { FC, SyntheticEvent } from "react";
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, FormGroup, Typography } from "@mui/material";
+import { FC } from "react";
 
 interface Props {
   id: string,

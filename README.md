@@ -5,5 +5,6 @@
 Run `npm run deploy`
 
 # TO DO LIST
-- cheat sheet
-- dev notes
+- cheat sheet page
+- dev notes page
+- light-dark theme switch
