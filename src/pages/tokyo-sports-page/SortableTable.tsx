@@ -1,6 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material";
 import { FC } from "react";
-import { CourtData } from "./TokyoSportsPage";
+import { CourtData } from "./TennisCourtsPage";
 
 interface Props {
   dataList: CourtData[],
@@ -30,7 +30,7 @@ export const SortableTable: FC<Props> = (props: Props) => {
         <TableBody>
           {props.dataList.map((data) => (
             <TableRow
-              key={data.date}
+              key={`${data.date}${data.time}${data.time}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">

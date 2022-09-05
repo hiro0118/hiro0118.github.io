@@ -1,5 +1,5 @@
 import { ProfilePage } from "./profile-page/ProfilePage";
-import { TennisCourtsPage } from "./tokyo-sports-page/TokyoSportsPage";
+import { TennisCourtsPage } from "./tokyo-sports-page/TennisCourtsPage";
 import { WorkInProgressPage } from "./wip-page/WorkInProgressPage";
 import { PageInfo } from "../components/menu-bar/PageInfo";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
