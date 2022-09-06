@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, Divider, FormControlLabel, FormGroup, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, FormControlLabel, FormGroup, Typography } from "@mui/material";
 import { FC } from "react";
 
 export const SELECT_ALL = "selectAll";
@@ -39,7 +39,7 @@ export const FilterAccordion: FC<Props> = (props: Props) => {
             label={"Select All"}
             onChange={props.onSelect}
           />
-          <Box sx={{ ml: 2 }}>
+          <Box sx={{ ml: 3 }}>
             {props.items.map(condition => {
               return (
                 <FormControlLabel
