@@ -3,7 +3,7 @@ import { Button, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { FilterAccordion, SELECT_ALL } from './FilterAccordion';
 import { useState } from 'react';
-import { CourtData, SortableTable } from './SortableTable';
+import { CourtData, MAX_DISPLAY_NUM, SortableTable } from './SortableTable';
 
 const sortTimes = (a: string, b: string) => {
   return (a.length == b.length) ? a.localeCompare(b) : (a.length - b.length);
@@ -12,14 +12,14 @@ const sortTimes = (a: string, b: string) => {
 export const TennisCourtsPage = () => {
 
   const allItems: CourtData[] = getCourtData();
-  const [visibleItems, setVisibleItems] = useState<CourtData[]>([]);
+  const [visibleItems, setVisibleItems] = useState<CourtData[]>(allItems);
 
   const allDates = removeDuplicates(allItems.map(i => i.date)).sort();
   const allTimes = removeDuplicates(allItems.map(i => i.time)).sort(sortTimes);
   const allParks = removeDuplicates(allItems.map(i => i.park)).sort();
-  const [selectedDates, setSelectedDates] = useState<string[]>([]);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
-  const [selectedParks, setSelectedParks] = useState<string[]>([]);
+  const [selectedDates, setSelectedDates] = useState<string[]>(allDates);
+  const [selectedTimes, setSelectedTimes] = useState<string[]>(allTimes);
+  const [selectedParks, setSelectedParks] = useState<string[]>(allParks);
 
   const onDateChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedList = getUpdatedSelections(allDates, selectedDates, event);
@@ -50,6 +50,7 @@ export const TennisCourtsPage = () => {
       <Typography variant="h3" padding={3} align="center">Tennis Court Application Status</Typography>
 
       <Container sx={{ mb: 2 }}>
+        <Typography padding={3} align="right">*Showing the first {MAX_DISPLAY_NUM} records.</Typography>
         <Grid container spacing={3} justifyContent="center">
           <Grid xs={3}>
             <FilterAccordion
@@ -91,7 +92,7 @@ export const TennisCourtsPage = () => {
 }
 
 const getCourtData = (): CourtData[] => {
-  return require("./tennis_data_20220908233208.json");
+  return require("./tennis_data_20220909002705.json");
 }
 
 const removeDuplicates = (data: string[]): string[] => {

@@ -1,6 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material";
 import { FC, useState } from "react";
 
+export const MAX_DISPLAY_NUM = 300;
+
 export type CourtData = {
   date: string;
   park: string;
@@ -54,21 +56,23 @@ export const SortableTable: FC<Props> = (props: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {getSortedData(props.dataList, asc).map((data) => (
-            <TableRow
-              key={`${data.date}${data.time}${data.time}`}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {data.date}
-              </TableCell>
-              <TableCell>{data.time}</TableCell>
-              <TableCell>{data.park}</TableCell>
-              <TableCell align="right">{data.courts}</TableCell>
-              <TableCell align="right">{data.applications}</TableCell>
-              <TableCell align="right">{data.ratio}</TableCell>
-            </TableRow>
-          ))}
+          {getSortedData(props.dataList, asc)
+            .filter((_value, index) => index < MAX_DISPLAY_NUM)
+            .map((data) => (
+              <TableRow
+                key={`${data.date}-${data.time}-${data.park}`}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {data.date}
+                </TableCell>
+                <TableCell>{data.time}</TableCell>
+                <TableCell>{data.park}</TableCell>
+                <TableCell align="right">{data.courts}</TableCell>
+                <TableCell align="right">{data.applications}</TableCell>
+                <TableCell align="right">{data.ratio}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
