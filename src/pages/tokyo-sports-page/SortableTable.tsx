@@ -23,7 +23,7 @@ const getSortedData = (dataList: CourtData[], asc: boolean): CourtData[] => {
 
 export const SortableTable: FC<Props> = (props: Props) => {
 
-  const [asc, setAsc] = useState<boolean>(true);
+  const [asc, setAsc] = useState<boolean>(false);
 
   const onRatioSort = () => {
     setAsc(!asc);
