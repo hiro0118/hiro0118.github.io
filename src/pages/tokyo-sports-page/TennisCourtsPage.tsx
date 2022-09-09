@@ -92,7 +92,7 @@ export const TennisCourtsPage = () => {
 }
 
 const getCourtData = (): CourtData[] => {
-  return require("./tennis_data_20220909002705.json");
+  return require("./tennis_data_20220909200841.json");
 }
 
 const removeDuplicates = (data: string[]): string[] => {
