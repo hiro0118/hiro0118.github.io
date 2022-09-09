@@ -70,7 +70,7 @@ export const SortableTable: FC<Props> = (props: Props) => {
                 <TableCell>{data.park}</TableCell>
                 <TableCell align="right">{data.courts}</TableCell>
                 <TableCell align="right">{data.applications}</TableCell>
-                <TableCell align="right">{data.ratio}</TableCell>
+                <TableCell align="right">{String(data.ratio).slice(0,5)}</TableCell>
               </TableRow>
             ))}
         </TableBody>

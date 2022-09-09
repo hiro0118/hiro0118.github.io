@@ -52,7 +52,7 @@ export const TennisCourtsPage = () => {
       <Container sx={{ mb: 2 }}>
         <Typography padding={3} align="right">*Showing the first {MAX_DISPLAY_NUM} records.</Typography>
         <Grid container spacing={3} justifyContent="center">
-          <Grid xs={2.8}>
+          <Grid xs={12} md={2.8}>
             <FilterAccordion
               id='Dates'
               onSelect={onDateChecked}
@@ -81,7 +81,7 @@ export const TennisCourtsPage = () => {
             </Button>
           </Grid>
 
-          <Grid xs={8.2}>
+          <Grid xs={12} md={9.2}>
             <SortableTable dataList={visibleItems} />
           </Grid>
 
