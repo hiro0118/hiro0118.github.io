@@ -1,5 +1,5 @@
+import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import { Parallax, ParallaxLayer } from '@react-spring/parallax';
-import { Card as CustomCard } from '../../components/card/Card';
 
 export const ProfilePage = () => {
 
@@ -11,7 +11,19 @@ export const ProfilePage = () => {
           offset={0}
           speed={1}
           style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <CustomCard title='title1' content='content1' />
+          <Card sx={{ maxWidth: 700 }} raised={true}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Title
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                The content of the card goes here.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
         </ParallaxLayer>
 
         <ParallaxLayer
@@ -23,11 +35,23 @@ export const ProfilePage = () => {
             alignItems: 'center',
             color: 'black',
           }}>
-          <CustomCard title='Education' content='content2' />
+          <Card sx={{ maxWidth: 700 }} raised={true}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Title
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                The content of the card goes here.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
         </ParallaxLayer>
 
         <ParallaxLayer offset={1.5} speed={3} style={{ justifyContent: 'flex-start' }}>
-          <img src="/public/images/hat.svg" style={{ display: 'block', width: '30%', marginLeft: '60%' }} />
+          <img src="./images/hat.svg" style={{ display: 'block', width: '20%', marginLeft: '60%' }} />
         </ParallaxLayer>
 
         <ParallaxLayer
@@ -39,7 +63,19 @@ export const ProfilePage = () => {
             alignItems: 'center',
             color: 'black',
           }}>
-          <CustomCard title='title3' content='content3' />
+          <Card sx={{ maxWidth: 700 }} raised={true}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Title
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                The content of the card goes here.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
         </ParallaxLayer>
       </Parallax>
     </>

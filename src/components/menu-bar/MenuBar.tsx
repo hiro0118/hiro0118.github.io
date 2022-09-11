@@ -1,7 +1,9 @@
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Box, CssBaseline, ListItemButton } from "@mui/material";
+import { Box, CssBaseline, ListItemButton, Stack, Switch } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
@@ -12,7 +14,8 @@ import ListItemText from "@mui/material/ListItemText";
 import { styled, useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import { PageThemeContext } from "../providers/PageThemeProvider";
 import { PageInfo } from "./PageInfo";
 
 const drawerWidth = 240;
@@ -72,6 +75,7 @@ interface Props {
 }
 
 export const MenuBar: FC<Props> = (props: Props) => {
+  const { switchPageTheme } = useContext(PageThemeContext);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -97,11 +101,18 @@ export const MenuBar: FC<Props> = (props: Props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Hiroshi Fuji
           </Typography>
+
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Brightness7Icon fontSize="small" />
+            <Switch size="small" onClick={switchPageTheme} />
+            <Brightness4Icon fontSize="small" />
+          </Stack>
         </Toolbar>
       </AppBar>
+
       <Drawer
         sx={{
           width: drawerWidth,

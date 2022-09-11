@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { CourtData, MAX_DISPLAY_NUM, SortableTable } from './SortableTable';
 
 const sortTimes = (a: string, b: string) => {
-  return (a.length == b.length) ? a.localeCompare(b) : (a.length - b.length);
+  return (a.length === b.length) ? a.localeCompare(b) : (a.length - b.length);
 }
 
 export const TennisCourtsPage = () => {
