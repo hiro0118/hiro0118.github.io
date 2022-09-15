@@ -1,19 +1,15 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material";
-import { FC, useState } from "react";
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material";
+import { FC, memo, useState } from "react";
+import StarIcon from '@mui/icons-material/Star';
+import { CourtData } from "./TennisCourtsPage";
 
 export const MAX_DISPLAY_NUM = 300;
 
-export type CourtData = {
-  date: string;
-  park: string;
-  time: string;
-  courts: number;
-  applications: number;
-  ratio: number;
-}
-
 interface Props {
   dataList: CourtData[],
+  favedItemSet: Set<string>,
+  favedItemOnly: boolean,
+  onFaved: any,
 }
 
 const getSortedData = (dataList: CourtData[], asc: boolean): CourtData[] => {
@@ -23,7 +19,9 @@ const getSortedData = (dataList: CourtData[], asc: boolean): CourtData[] => {
   );
 }
 
-export const SortableTable: FC<Props> = (props: Props) => {
+export const SortableTable: FC<Props> = memo((props: Props) => {
+
+  console.log("SortableTable updated!")
 
   const [asc, setAsc] = useState<boolean>(false);
 
@@ -39,6 +37,7 @@ export const SortableTable: FC<Props> = (props: Props) => {
       <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell> </TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
             <TableCell>Park</TableCell>
@@ -57,24 +56,35 @@ export const SortableTable: FC<Props> = (props: Props) => {
         </TableHead>
         <TableBody>
           {getSortedData(props.dataList, asc)
+            .filter(data => props.favedItemOnly ? props.favedItemSet.has(keyOf(data)) : true)
             .filter((_value, index) => index < MAX_DISPLAY_NUM)
-            .map((data) => (
-              <TableRow
-                key={`${data.date}-${data.time}-${data.park}`}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {data.date}
-                </TableCell>
-                <TableCell>{data.time}</TableCell>
-                <TableCell>{data.park}</TableCell>
-                <TableCell align="right">{data.courts}</TableCell>
-                <TableCell align="right">{data.applications}</TableCell>
-                <TableCell align="right">{String(data.ratio).slice(0,5)}</TableCell>
-              </TableRow>
-            ))}
+            .map((data) => {
+              const dataKey = keyOf(data);
+              return (
+                <TableRow
+                  key={dataKey}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell sx={{ py: 0, my: 0 }}>
+                    <IconButton sx={{ padding: 0, margin: 0 }} size="small" onClick={(e) => props.onFaved(dataKey)}>
+                      <StarIcon fontSize="small" color={props.favedItemSet.has(dataKey) ? "warning" : "disabled"} />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell component="th" scope="row">{data.date}</TableCell>
+                  <TableCell>{data.time}</TableCell>
+                  <TableCell>{data.park}</TableCell>
+                  <TableCell align="right">{data.courts}</TableCell>
+                  <TableCell align="right">{data.applications}</TableCell>
+                  <TableCell align="right">{String(data.ratio).slice(0, 5)}</TableCell>
+                </TableRow>
+              )
+            })}
         </TableBody>
       </Table>
     </TableContainer>
   );
+});
+
+const keyOf = (data: CourtData): string => {
+  return `${data.date}-${data.time}-${data.park}`
 }
