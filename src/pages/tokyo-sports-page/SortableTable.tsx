@@ -3,7 +3,7 @@ import { FC, memo, useState } from "react";
 import StarIcon from '@mui/icons-material/Star';
 import { CourtData } from "./TennisCourtsPage";
 
-export const MAX_DISPLAY_NUM = 300;
+export const MAX_DISPLAY_NUM = 100;
 
 interface Props {
   dataList: CourtData[],
@@ -65,9 +65,9 @@ export const SortableTable: FC<Props> = memo((props: Props) => {
                   key={dataKey}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell sx={{ py: 0, my: 0 }}>
+                  <TableCell align="center" sx={{ padding: 0, pl: 1, my: 0 }}>
                     <IconButton sx={{ padding: 0, margin: 0 }} size="small" onClick={(e) => props.onFaved(dataKey)}>
-                      <StarIcon fontSize="small" color={props.favedItemSet.has(dataKey) ? "warning" : "disabled"} />
+                      <StarIcon fontSize="medium" color={props.favedItemSet.has(dataKey) ? "warning" : "disabled"} />
                     </IconButton>
                   </TableCell>
                   <TableCell component="th" scope="row">{data.date}</TableCell>

@@ -20,7 +20,6 @@ export interface CourtData {
   ratio: number;
 }
 
-
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -41,13 +40,16 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: number) {
+function tabProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
+const removeDuplicate = (value: string, index: number, array: string[]) => {
+  return array.indexOf(value) === index;
+}
 
 const sortTimes = (a: string, b: string) => {
   return (a.length === b.length) ? a.localeCompare(b) : (a.length - b.length);
@@ -56,16 +58,15 @@ const sortTimes = (a: string, b: string) => {
 export const TennisCourtsPage = () => {
 
   const allItems = getCourtData();
-  const allDates = removeDuplicates(allItems.map(i => i.date)).sort();
-  const allTimes = removeDuplicates(allItems.map(i => i.time)).sort(sortTimes);
-  const allParks = removeDuplicates(allItems.map(i => i.park)).sort();
+  const allDates = allItems.map(i => i.date).filter(removeDuplicate).sort();
+  const allTimes = allItems.map(i => i.time).filter(removeDuplicate).sort(sortTimes);
+  const allParks = allItems.map(i => i.park).filter(removeDuplicate).sort();
 
   const [visibleItems, setVisibleItems] = useState<CourtData[]>(allItems);
-  const [selectedDates, setSelectedDates] = useState<string[]>(allDates);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>(allTimes);
-  const [selectedParks, setSelectedParks] = useState<string[]>(allParks);
-
-  const [favedItemSet, setFavedItemSet] = useState<Set<string>>(new Set<string>());
+  const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set(allDates));
+  const [selectedTimes, setSelectedTimes] = useState<Set<string>>(new Set(allTimes));
+  const [selectedParks, setSelectedParks] = useState<Set<string>>(new Set(allParks));
+  const [favedItems, setFavedItems] = useState<Set<string>>(new Set());
 
   const onDateChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedList = getUpdatedSelections(allDates, selectedDates, event);
@@ -83,26 +84,26 @@ export const TennisCourtsPage = () => {
   }
 
   const onFaved = useCallback((key: string) => {
-    const newFavedItemSet: Set<string> = new Set<string>(favedItemSet);
+    const newFavedItemSet: Set<string> = new Set(favedItems);
     if (newFavedItemSet.has(key)) {
       newFavedItemSet.delete(key);
     } else {
       newFavedItemSet.add(key);
     }
-    setFavedItemSet(newFavedItemSet);
-  }, [favedItemSet]);
+    setFavedItems(newFavedItemSet);
+  }, [favedItems]);
 
   const onApply = () => {
     const newVisbleItems = allItems
-      .filter(i => selectedDates.includes(i.date))
-      .filter(i => selectedTimes.includes(i.time))
-      .filter(i => selectedParks.includes(i.park));
+      .filter(i => selectedDates.has(i.date))
+      .filter(i => selectedTimes.has(i.time))
+      .filter(i => selectedParks.has(i.park));
     setVisibleItems(newVisbleItems);
   }
 
-  const [value, setValue] = useState(0);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const [tabId, setTabId] = useState(0);
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabId(newValue);
   };
 
   return (
@@ -110,12 +111,12 @@ export const TennisCourtsPage = () => {
       <Typography variant="h3" padding={3} align="center">Tennis Court Application Status</Typography>
       <Container sx={{ mb: 2 }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Search" {...a11yProps(0)} />
-            <Tab label="Favorites" {...a11yProps(1)} />
+          <Tabs value={tabId} onChange={handleTabChange} aria-label="basic tabs example">
+            <Tab label="Search" {...tabProps(0)} />
+            <Tab label="Favorites" {...tabProps(1)} />
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
+        <TabPanel value={tabId} index={0}>
           <Typography padding={3} align="right">*Showing the first {MAX_DISPLAY_NUM} records.</Typography>
           <Grid container spacing={3} justifyContent="center">
             <Grid xs={12} md={2.8}>
@@ -123,19 +124,19 @@ export const TennisCourtsPage = () => {
                 id='Dates'
                 onSelect={onDateChecked}
                 items={allDates}
-                selectedItems={selectedDates}
+                selections={selectedDates}
               />
               <FilterAccordion
                 id='Times'
                 onSelect={onTimeChecked}
                 items={allTimes}
-                selectedItems={selectedTimes}
+                selections={selectedTimes}
               />
               <FilterAccordion
                 id='Parks'
                 onSelect={onParkChecked}
                 items={allParks}
-                selectedItems={selectedParks}
+                selections={selectedParks}
               />
               <Button
                 variant="contained"
@@ -150,18 +151,18 @@ export const TennisCourtsPage = () => {
             <Grid xs={12} md={9.2}>
               <SortableTable
                 dataList={visibleItems}
-                favedItemSet={favedItemSet}
+                favedItemSet={favedItems}
                 favedItemOnly={false}
                 onFaved={onFaved} />
             </Grid>
 
           </Grid>
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={tabId} index={1}>
           <Grid xs={12} md={9.2}>
             <SortableTable
               dataList={allItems}
-              favedItemSet={favedItemSet}
+              favedItemSet={favedItems}
               favedItemOnly={true}
               onFaved={onFaved} />
           </Grid>
@@ -175,34 +176,22 @@ const getCourtData = (): CourtData[] => {
   return require("./tennis_data_20220909200841.json");
 }
 
-const removeDuplicates = (data: string[]): string[] => {
-  return data.filter((val, index) => data.indexOf(val) === index);
-}
 
 const getUpdatedSelections = (
   allItems: string[],
-  originalItems: string[],
+  selections: Set<string>,
   event: React.ChangeEvent<HTMLInputElement>
-): string[] => {
+): Set<string> => {
+
   const value = event.target.defaultValue;
   const checked = event.target.checked;
 
   if (value === SELECT_ALL) {
-    if (allItems.length === originalItems.length) {
-      return [];
-    } else {
-      return allItems;
-    }
-  }
-
-  const updatedItems = [...originalItems];
-  if (checked) {
-    updatedItems.push(value);
+    return (allItems.length === selections.size) ?
+      new Set<string>() : new Set<string>(allItems);
   } else {
-    const index = updatedItems.indexOf(value);
-    if (index !== -1) {
-      updatedItems.splice(index, 1);
-    }
+    const newSelections = new Set<string>(selections);
+    checked ? newSelections.add(value) : newSelections.delete(value);
+    return newSelections;
   }
-  return updatedItems;
 }

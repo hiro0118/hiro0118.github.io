@@ -8,7 +8,7 @@ interface Props {
   id: string,
   onSelect: any,
   items: string[],
-  selectedItems: string[],
+  selections: Set<string>,
 }
 
 export const FilterAccordion: FC<Props> = (props: Props) => {
@@ -30,10 +30,10 @@ export const FilterAccordion: FC<Props> = (props: Props) => {
             value={SELECT_ALL}
             control={
               <Checkbox
-                checked={props.selectedItems.length === props.items.length}
+                checked={props.selections.size === props.items.length}
                 indeterminate={
-                  (props.selectedItems.length !== props.items.length) &&
-                  (props.selectedItems.length !== 0)
+                  (props.selections.size !== props.items.length) &&
+                  (props.selections.size !== 0)
                 }
               />}
             label={"Select All"}
@@ -47,7 +47,7 @@ export const FilterAccordion: FC<Props> = (props: Props) => {
                   id={condition}
                   value={condition}
                   control={<Checkbox />}
-                  checked={props.selectedItems.includes(condition)}
+                  checked={props.selections.has(condition)}
                   label={condition}
                   onChange={props.onSelect} />
               );
