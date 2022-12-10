@@ -20,7 +20,7 @@ export interface CourtData {
   ratio: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -40,7 +40,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function tabProps(index: number) {
+const tabProps = (index: number) => {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
@@ -52,7 +52,7 @@ const removeDuplicate = (value: string, index: number, array: string[]) => {
 }
 
 const sortTimes = (a: string, b: string) => {
-  return (a.length === b.length) ? a.localeCompare(b) : (a.length - b.length);
+  return (a.length - b.length) || a.localeCompare(b);
 }
 
 export const TennisCourtsPage = () => {
@@ -173,7 +173,7 @@ export const TennisCourtsPage = () => {
 }
 
 const getCourtData = (): CourtData[] => {
-  return require("./tennis_data_20220909200841.json");
+  return require("./application_data.json");
 }
 
 

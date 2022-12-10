@@ -28,7 +28,11 @@ export const SortableTable: FC<Props> = memo((props: Props) => {
   const onRatioSort = () => {
     setAsc(!asc);
     props.dataList.sort(
-      (a, b) => asc ? (b.ratio - a.ratio) : (a.ratio - b.ratio)
+      (a, b) =>
+        (asc ? (b.ratio - a.ratio) : (a.ratio - b.ratio)) ||
+        a.date.localeCompare(b.date) ||
+        ((a.time.length - b.time.length) || a.time.localeCompare(b.time)) ||
+        a.park.localeCompare(b.park)
     );
   }
 
@@ -67,7 +71,7 @@ export const SortableTable: FC<Props> = memo((props: Props) => {
                 >
                   <TableCell align="center" sx={{ padding: 0, pl: 1, my: 0 }}>
                     <IconButton sx={{ padding: 0, margin: 0 }} size="small" onClick={(e) => props.onFaved(dataKey)}>
-                      <StarIcon fontSize="medium" color={props.favedItemSet.has(dataKey) ? "warning" : "disabled"} />
+                      <StarIcon fontSize="small" color={props.favedItemSet.has(dataKey) ? "warning" : "disabled"} />
                     </IconButton>
                   </TableCell>
                   <TableCell component="th" scope="row">{data.date}</TableCell>
