@@ -1,17 +1,19 @@
 {
   "allowedTools": [
-    "Edit",
-    "Write",
+    "Edit(src/**)",
+    "Edit(public/**)",
+    "Write(src/**)",
+    "Write(public/**)",
     "Read",
-    "Bash(.claude/scripts/issue-view.sh*)",
-    "Bash(.claude/scripts/issue-list.sh*)",
-    "Bash(.claude/scripts/issue-create.sh*)",
-    "Bash(.claude/scripts/issue-edit.sh*)",
-    "Bash(.claude/scripts/git-branch.sh*)",
-    "Bash(.claude/scripts/git-commit-push.sh*)",
-    "Bash(.claude/scripts/pr-create.sh*)",
-    "Bash(.claude/scripts/pr-view.sh*)",
-    "Bash(.claude/scripts/pr-comments.sh*)",
-    "Bash(.claude/scripts/pr-comment-reply.sh*)"
+    "Bash(*issue-view.sh*)",
+    "Bash(*issue-list.sh*)",
+    "Bash(*issue-create.sh*)",
+    "Bash(*issue-edit.sh*)",
+    "Bash(*git-branch.sh*)",
+    "Bash(*git-commit-push.sh*)",
+    "Bash(*pr-create.sh*)",
+    "Bash(*pr-view.sh*)",
+    "Bash(*pr-comments.sh*)",
+    "Bash(*pr-comment-reply.sh*)"
   ]
 }
