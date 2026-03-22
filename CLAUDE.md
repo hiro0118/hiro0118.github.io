@@ -11,6 +11,10 @@ npm run build      # Production build
 npm run deploy     # Build and deploy to GitHub Pages (gh-pages -d build)
 ```
 
+## Environment
+
+All environment and tooling changes (installing packages, global tools, VS Code extensions, etc.) must go into `.devcontainer/devcontainer.json`. Do not run `npm install` or any install commands directly in the shell or devcontainer terminal.
+
 ## Architecture
 
 This is a personal portfolio SPA built with Create React App, TypeScript, and Material-UI v5, hosted on GitHub Pages.
