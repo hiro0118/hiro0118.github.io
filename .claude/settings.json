@@ -1,1 +1,17 @@
-{}
+{
+  "allowedTools": [
+    "Edit",
+    "Write",
+    "Read",
+    "Bash(.claude/scripts/issue-view.sh*)",
+    "Bash(.claude/scripts/issue-list.sh*)",
+    "Bash(.claude/scripts/issue-create.sh*)",
+    "Bash(.claude/scripts/issue-edit.sh*)",
+    "Bash(.claude/scripts/git-branch.sh*)",
+    "Bash(.claude/scripts/git-commit-push.sh*)",
+    "Bash(.claude/scripts/pr-create.sh*)",
+    "Bash(.claude/scripts/pr-view.sh*)",
+    "Bash(.claude/scripts/pr-comments.sh*)",
+    "Bash(.claude/scripts/pr-comment-reply.sh*)"
+  ]
+}

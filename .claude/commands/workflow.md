@@ -2,35 +2,36 @@
 
 This skill manages the full lifecycle of a GitHub issue: from filing to implementation to PR.
 
+All git and GitHub operations use pre-defined scripts in `.claude/scripts/` which run without approval prompts. **Merging is the only exception — it always requires explicit user approval.**
+
+---
+
 ## Step 1 — Identify or create the issue
 
 If `$ARGUMENTS` is a number, fetch that issue:
 
 ```
-gh issue view $ARGUMENTS
+.claude/scripts/issue-view.sh <number>
 ```
 
 If `$ARGUMENTS` is a description (not a number), search open issues for a match:
 
 ```
-gh issue list --state open --limit 50
+.claude/scripts/issue-list.sh
 ```
 
 Pick the best match and confirm with the user. If no good match exists, offer to create a new issue.
 
-**When creating a new issue**, determine an appropriate label from the repo's existing labels:
+**When creating a new issue**, check existing labels first, then create with an appropriate one:
 
 ```
 gh label list
-```
-
-Then create the issue with a clear title, body, and label:
-
-```
-gh issue create --title "..." --body "..." --label "..."
+.claude/scripts/issue-create.sh --title "..." --body "..." --label "..."
 ```
 
 Confirm the issue URL with the user before proceeding.
+
+---
 
 ## Step 2 — Understand and plan
 
@@ -48,14 +49,17 @@ Present the plan clearly and ask: **"Does this plan look good? Any changes?"**
 
 Do not proceed until the user explicitly approves (e.g. "looks good", "approved", "yes").
 
+---
+
 ## Step 3 — Branch
 
-Once the plan is approved, create a new branch from the main branch. Use a short kebab-case name derived from the issue:
+Once the plan is approved, create a new branch from master:
 
 ```
-git fetch origin
-git checkout -b feature/<short-description> origin/master
+.claude/scripts/git-branch.sh feature/<short-description>
 ```
+
+---
 
 ## Step 4 — Implement
 
@@ -64,6 +68,8 @@ Make all code changes autonomously based on the approved plan. Constraints:
 - Changes to repo source files only
 - No shell commands that install packages, call external APIs, or have destructive effects
 - Follow existing code conventions (TypeScript, Material-UI, HashRouter — see CLAUDE.md)
+
+---
 
 ## Step 5 — Self-review
 
@@ -76,14 +82,20 @@ Before committing, review all changes you made:
 
 Fix any issues found before proceeding.
 
+---
+
 ## Step 6 — Commit and push
 
-Stage only the files you changed (do not use `git add -A`). Write a clear, human commit message with no author attribution.
-
-Push and create a PR to `master` using this exact format:
+Stage and commit only the files you changed, then push:
 
 ```
-gh pr create --title "<short imperative title>" --body "$(cat <<'EOF'
+.claude/scripts/git-commit-push.sh "<commit message>" file1 file2 ...
+```
+
+Create a PR using this format:
+
+```
+.claude/scripts/pr-create.sh --title "<short imperative title>" --body "$(cat <<'EOF'
 ## What
 <1–3 sentences describing what changed and why>
 
@@ -93,38 +105,43 @@ gh pr create --title "<short imperative title>" --body "$(cat <<'EOF'
 
 Closes #<issue-number>
 EOF
-)" --base master
+)"
 ```
 
 Return the PR URL to the user, then provide a concise summary of all changes made in the chat.
+
+---
 
 ## Step 7 — Address PR review comments
 
 When the user asks to handle PR comments, fetch them:
 
 ```
-gh pr view <number> --comments
-gh api repos/{owner}/{repo}/pulls/<number>/comments
+.claude/scripts/pr-view.sh <pr-number>
+.claude/scripts/pr-comments.sh <pr-number>
 ```
 
 For each comment:
 
 1. Understand what change is requested
 2. Make the code change
-3. Commit and push
+3. Commit and push:
+   ```
+   .claude/scripts/git-commit-push.sh "<message>" file1 file2 ...
+   ```
 4. Reply to the comment thread with the commit SHA:
+   ```
+   .claude/scripts/pr-comment-reply.sh <comment-id> "Fixed in <commit-sha>"
+   ```
 
-```
-gh api repos/{owner}/{repo}/pulls/comments/<comment_id>/replies \
-  -f body="Fixed in <commit-sha>"
-```
+---
 
 ## Step 8 — Merge (optional)
 
-If the user asks Claude to merge, confirm first, then:
+**Never merge without explicit user approval.** Wait for the user to say "merge" or "go ahead and merge" before proceeding.
+
+When approved:
 
 ```
 gh pr merge <number> --squash --delete-branch
 ```
-
-Otherwise, remind the user the PR is ready for their review and merge.
