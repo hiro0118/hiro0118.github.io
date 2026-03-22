@@ -4,6 +4,8 @@ This skill manages the full lifecycle of a GitHub issue: from filing to implemen
 
 All git and GitHub operations run without approval prompts. **Merging is the only exception — it always requires explicit user approval.**
 
+**Important:** Never chain commands with `&&` or `;`. Run each command as a separate shell call so that auto-approval patterns match correctly.
+
 ---
 
 ## Step 1 — Identify or create the issue
@@ -53,11 +55,14 @@ Do not proceed until the user explicitly approves (e.g. "looks good", "approved"
 
 ## Step 3 — Branch
 
-Once the plan is approved, create a new branch from master:
+Once the plan is approved, create a new branch from main. Run each command separately:
 
 ```
 git fetch origin
-git checkout -b feature/<short-description> origin/master
+```
+
+```
+git checkout -b feature/<short-description> origin/main
 ```
 
 ---
@@ -87,11 +92,17 @@ Fix any issues found before proceeding.
 
 ## Step 6 — Commit and push
 
-Stage only the files you changed and push:
+Stage only the files you changed and push. Run each command separately:
 
 ```
 git add <file1> <file2> ...
+```
+
+```
 git commit -m "<clear commit message>"
+```
+
+```
 git push
 ```
 
@@ -108,7 +119,7 @@ gh pr create --title "<short imperative title>" --body "$(cat <<'EOF'
 
 Closes #<issue-number>
 EOF
-)" --base master
+)" --base main
 ```
 
 Return the PR URL to the user, then provide a concise summary of all changes made in the chat.
@@ -128,10 +139,14 @@ For each comment:
 
 1. Understand what change is requested
 2. Make the code change
-3. Commit and push:
+3. Commit and push (each command separately):
    ```
    git add <files>
+   ```
+   ```
    git commit -m "<message>"
+   ```
+   ```
    git push
    ```
 4. Reply to the comment thread with the commit SHA:
