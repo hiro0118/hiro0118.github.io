@@ -65,7 +65,18 @@ Make all code changes autonomously based on the approved plan. Constraints:
 - No shell commands that install packages, call external APIs, or have destructive effects
 - Follow existing code conventions (TypeScript, Material-UI, HashRouter — see CLAUDE.md)
 
-## Step 5 — Commit and push
+## Step 5 — Self-review
+
+Before committing, review all changes you made:
+
+- **Consistency:** naming conventions, code style, and patterns match the surrounding codebase
+- **Duplication:** no logic repeated that could be shared with existing code
+- **Readability:** code is clear without requiring extra comments
+- **Bugs:** logic is correct, edge cases are handled, no regressions introduced
+
+Fix any issues found before proceeding.
+
+## Step 6 — Commit and push
 
 Stage only the files you changed (do not use `git add -A`). Write a clear commit message. Push and create a PR to `master`:
 
@@ -75,9 +86,9 @@ gh pr create --title "..." --body "..." --base master
 
 PR body: one Summary section with bullet points. No test plan. No "Generated with Claude Code" footer.
 
-Return the PR URL to the user.
+Return the PR URL to the user, then provide a concise summary of all changes made in the chat.
 
-## Step 6 — Address PR review comments
+## Step 7 — Address PR review comments
 
 When the user asks to handle PR comments, fetch them:
 
@@ -98,7 +109,7 @@ gh api repos/{owner}/{repo}/pulls/comments/<comment_id>/replies \
   -f body="Fixed in <commit-sha>"
 ```
 
-## Step 7 — Merge (optional)
+## Step 8 — Merge (optional)
 
 If the user asks Claude to merge, confirm first, then:
 
