@@ -1,13 +1,14 @@
-import { motion } from 'framer-motion';
-import { usePortfolioTheme } from '../ThemeContext';
-import { CardFrame } from '../CardFrame';
-import { PortfolioTheme } from '../themes/types';
+import { motion } from "framer-motion";
+import { usePortfolioTheme } from "../ThemeContext";
+import { CardFrame } from "../CardFrame";
+import { HopCharacter } from "../SectionCharacter";
+import { PortfolioTheme } from "../themes/types";
 
 interface Mission {
   id: string;
   title: string;
   description: string;
-  status: 'COMPLETED' | 'ACTIVE';
+  status: "COMPLETED" | "ACTIVE";
   tags: string[];
   emoji: string;
   url?: string;
@@ -15,28 +16,31 @@ interface Mission {
 
 const MISSIONS: Mission[] = [
   {
-    id: 'MISSION-001',
-    title: 'Portfolio HUD',
-    description: 'Cinematic spaceship-HUD personal portfolio built with React, TypeScript, and Framer Motion.',
-    status: 'ACTIVE',
-    emoji: '🚀',
-    tags: ['React', 'TypeScript', 'Framer Motion'],
+    id: "MISSION-001",
+    title: "Portfolio HUD",
+    description:
+      "Cinematic spaceship-HUD personal portfolio built with React, TypeScript, and Framer Motion.",
+    status: "ACTIVE",
+    emoji: "🚀",
+    tags: ["React", "TypeScript", "Framer Motion"],
   },
   {
-    id: 'MISSION-002',
-    title: 'Tokyo Tennis Finder',
-    description: 'SPA for filtering and sorting Tokyo municipal tennis court availability from a large static dataset.',
-    status: 'COMPLETED',
-    emoji: '🎾',
-    tags: ['React', 'TypeScript', 'MUI v5'],
+    id: "MISSION-002",
+    title: "Tokyo Tennis Finder",
+    description:
+      "SPA for filtering and sorting Tokyo municipal tennis court availability from a large static dataset.",
+    status: "COMPLETED",
+    emoji: "🎾",
+    tags: ["React", "TypeScript", "MUI v5"],
   },
   {
-    id: 'MISSION-003',
-    title: 'Data Pipeline',
-    description: 'Automated ETL pipeline for ingesting and transforming court reservation data into JSON bundles.',
-    status: 'COMPLETED',
-    emoji: '⚙️',
-    tags: ['Python', 'Node.js', 'JSON'],
+    id: "MISSION-003",
+    title: "Data Pipeline",
+    description:
+      "Automated ETL pipeline for ingesting and transforming court reservation data into JSON bundles.",
+    status: "COMPLETED",
+    emoji: "⚙️",
+    tags: ["Python", "Node.js", "JSON"],
   },
 ];
 
@@ -46,28 +50,44 @@ const tagContainer = {
 };
 const tagItem = {
   hidden: { opacity: 0, scale: 0.5, y: 10 },
-  show: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring' as const, stiffness: 380, damping: 20 } },
+  show: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 380, damping: 20 },
+  },
 };
 
-function SectionHeading({ label, theme, maxWidth = '960px' }: { label: string; theme: PortfolioTheme; maxWidth?: string }) {
-  /* ── Comic caption box ── */
-  if (theme.id === 'comic') {
+function SectionHeading({
+  label,
+  theme,
+  maxWidth = "960px",
+}: {
+  label: string;
+  theme: PortfolioTheme;
+  maxWidth?: string;
+}) {
+  if (theme.id === "comic") {
     return (
-      <div style={{ width: '100%', maxWidth, marginBottom: '2.5rem' }}>
-        <div style={{
-          display: 'inline-block',
-          background: theme.accent,
-          border: '3px solid #1a1a1a',
-          boxShadow: '4px 4px 0 #1a1a1a',
-          padding: '0.4rem 1.2rem',
-        }}>
-          <span style={{
-            fontFamily: theme.fontHeading,
-            fontWeight: 400,
-            fontSize: 'clamp(1.4rem, 4vw, 2rem)',
-            color: theme.primary,
-            letterSpacing: '0.04em',
-          }}>
+      <div style={{ width: "100%", maxWidth, marginBottom: "2.5rem" }}>
+        <div
+          style={{
+            display: "inline-block",
+            background: theme.accent,
+            border: "3px solid #1a1a1a",
+            boxShadow: "4px 4px 0 #1a1a1a",
+            padding: "0.4rem 1.2rem",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: theme.fontHeading,
+              fontWeight: 400,
+              fontSize: "clamp(1.4rem, 4vw, 2rem)",
+              color: theme.primary,
+              letterSpacing: "0.04em",
+            }}
+          >
             {label}
           </span>
         </div>
@@ -75,68 +95,78 @@ function SectionHeading({ label, theme, maxWidth = '960px' }: { label: string; t
     );
   }
 
-  /* ── Newspaper double-ruled headline ── */
-  if (theme.id === 'newspaper') {
+  if (theme.id === "crossing") {
     return (
-      <div style={{ width: '100%', maxWidth, marginBottom: '2.5rem' }}>
-        <div style={{ borderTop: '3px solid #1a1a1a', marginBottom: '4px' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '0.3rem 0' }}>
-          <span style={{
+      <div
+        style={{
+          width: "100%",
+          maxWidth,
+          marginBottom: "2.5rem",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.8rem",
+        }}
+      >
+        <span style={{ fontSize: "1.6rem" }}>🗒️</span>
+        <span
+          style={{
             fontFamily: theme.fontHeading,
-            fontStyle: 'italic',
-            fontWeight: 700,
-            fontSize: 'clamp(1.2rem, 3vw, 1.7rem)',
-            color: theme.secondary,
-          }}>
-            {label}
-          </span>
-        </div>
-        <div style={{ borderTop: '1px solid #1a1a1a' }} />
-      </div>
-    );
-  }
-
-  /* ── Animal Crossing ── */
-  if (theme.id === 'crossing') {
-    return (
-      <div style={{
-        width: '100%', maxWidth, marginBottom: '2.5rem',
-        display: 'flex', alignItems: 'center', gap: '0.8rem',
-      }}>
-        <span style={{ fontSize: '1.6rem' }}>🗒️</span>
-        <span style={{
-          fontFamily: theme.fontHeading, fontWeight: 800,
-          fontSize: 'clamp(1.2rem, 3vw, 1.8rem)', color: theme.text,
-        }}>
-          {label.replace('✿  ', '')}
+            fontWeight: 800,
+            fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
+            color: theme.text,
+          }}
+        >
+          {label.replace("✿  ", "")}
         </span>
-        <div style={{ flex: 1, height: '3px', background: `${theme.secondary}55`, borderRadius: '2px' }} />
+        <div
+          style={{
+            flex: 1,
+            height: "3px",
+            background: `${theme.secondary}55`,
+            borderRadius: "2px",
+          }}
+        />
       </div>
     );
   }
 
-  /* ── HUD ── */
   return (
-    <div style={{
-      fontFamily: theme.fontHeading, fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-      color: theme.primary, letterSpacing: '0.2em', marginBottom: '3rem',
-      borderBottom: `1px solid ${theme.border}`, paddingBottom: '0.5rem',
-      width: '100%', maxWidth,
-    }}>
+    <div
+      style={{
+        fontFamily: theme.fontHeading,
+        fontSize: "clamp(1rem, 2vw, 1.2rem)",
+        color: theme.primary,
+        letterSpacing: "0.2em",
+        marginBottom: "3rem",
+        borderBottom: `1px solid ${theme.border}`,
+        paddingBottom: "0.5rem",
+        width: "100%",
+        maxWidth,
+      }}
+    >
       {label}
     </div>
   );
 }
 
-function MissionCard({ mission, index, delay, theme }: { mission: Mission; index: number; delay: number; theme: PortfolioTheme }) {
-  const isCrossing  = theme.id === 'crossing';
-  const isComic     = theme.id === 'comic';
-  const isNewspaper = theme.id === 'newspaper';
-  const statusColor = mission.status === 'COMPLETED' ? theme.secondary : theme.accent;
+function MissionCard({
+  mission,
+  index,
+  delay,
+  theme,
+}: {
+  mission: Mission;
+  index: number;
+  delay: number;
+  theme: PortfolioTheme;
+}) {
+  const isCrossing = theme.id === "crossing";
+  const isComic = theme.id === "comic";
+  const statusColor =
+    mission.status === "COMPLETED" ? theme.secondary : theme.accent;
 
-  /* Entry direction: left / bottom / right */
   const xDir = index % 3 === 0 ? -60 : index % 3 === 2 ? 60 : 0;
-  const yDir = index % 3 === 1 ? 55  : 0;
+  const yDir = index % 3 === 1 ? 55 : 0;
   const rotInit = isComic ? (index % 2 === 0 ? -4 : 4) : 0;
 
   return (
@@ -144,77 +174,105 @@ function MissionCard({ mission, index, delay, theme }: { mission: Mission; index
       initial={{ opacity: 0, x: xDir, y: yDir, rotate: rotInit }}
       whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
       whileHover={theme.cardHover}
-      transition={{ duration: 0.55, delay, type: 'spring', stiffness: 80, damping: 16 }}
+      transition={{
+        duration: 0.55,
+        delay,
+        type: "spring",
+        stiffness: 80,
+        damping: 16,
+      }}
       viewport={{ once: true, amount: 0.25 }}
       style={{
         ...theme.card,
         background: theme.card.background ?? theme.surface,
-        borderRadius: theme.card.borderRadius ?? '4px',
-        position: 'relative',
-        display: 'flex', flexDirection: 'column',
-        overflow: 'hidden',
-        cursor: 'default',
+        borderRadius: theme.card.borderRadius ?? "4px",
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+        cursor: "default",
       }}
     >
       <CardFrame theme={theme} size={10} />
 
-      {/* ── Comic mission card ── */}
       {isComic ? (
         <>
-          {/* Colored top band */}
-          <div style={{
-            background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`,
-            padding: '1rem 1.2rem',
-            display: 'flex', alignItems: 'center', gap: '0.75rem',
-          }}>
+          <div
+            style={{
+              background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`,
+              padding: "1rem 1.2rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+            }}
+          >
             <motion.span
               initial={{ scale: 0, rotate: -180 }}
               whileInView={{ scale: 1, rotate: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 12, delay: delay + 0.2 }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 12,
+                delay: delay + 0.2,
+              }}
               viewport={{ once: true }}
-              style={{ fontSize: '2rem', display: 'inline-block' }}
+              style={{ fontSize: "2rem", display: "inline-block" }}
             >
               {mission.emoji}
             </motion.span>
             <div>
-              <div style={{
-                fontFamily: theme.fontHeading,
-                fontWeight: 400,
-                fontSize: '1.3rem',
-                color: 'white',
-                textShadow: '1px 1px 0 #1a1a1a',
-                lineHeight: 1.1,
-              }}>
+              <div
+                style={{
+                  fontFamily: theme.fontHeading,
+                  fontWeight: 400,
+                  fontSize: "1.3rem",
+                  color: "white",
+                  textShadow: "1px 1px 0 #1a1a1a",
+                  lineHeight: 1.1,
+                }}
+              >
                 {mission.title}
               </div>
-              {/* Status burst */}
-              <div style={{
-                display: 'inline-block',
-                marginTop: '4px',
-                background: mission.status === 'COMPLETED' ? '#FFD700' : '#E63329',
-                color: '#1a1a1a',
-                fontFamily: theme.fontBody,
-                fontWeight: 700,
-                fontSize: '0.68rem',
-                padding: '1px 8px',
-                border: '1.5px solid #1a1a1a',
-                boxShadow: '1px 1px 0 #1a1a1a',
-                transform: 'rotate(-2deg)',
-              }}>
-                {mission.status === 'COMPLETED' ? '✓ DONE' : '★ ACTIVE'}
+              <div
+                style={{
+                  display: "inline-block",
+                  marginTop: "4px",
+                  background:
+                    mission.status === "COMPLETED" ? "#FFD700" : "#E63329",
+                  color: "#1a1a1a",
+                  fontFamily: theme.fontBody,
+                  fontWeight: 700,
+                  fontSize: "0.68rem",
+                  padding: "1px 8px",
+                  border: "1.5px solid #1a1a1a",
+                  boxShadow: "1px 1px 0 #1a1a1a",
+                  transform: "rotate(-2deg)",
+                }}
+              >
+                {mission.status === "COMPLETED" ? "✓ DONE" : "★ ACTIVE"}
               </div>
             </div>
           </div>
 
-          <div style={{ padding: '1rem 1.2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
-            <p style={{
-              fontFamily: theme.fontBody,
-              fontSize: '0.95rem',
-              fontWeight: 500,
-              color: theme.cardText,
-              lineHeight: 1.6,
-              margin: 0,
-            }}>
+          <div
+            style={{
+              padding: "1rem 1.2rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.75rem",
+              flex: 1,
+            }}
+          >
+            <p
+              style={{
+                fontFamily: theme.fontBody,
+                fontSize: "0.95rem",
+                fontWeight: 500,
+                color: theme.cardText,
+                lineHeight: 1.6,
+                margin: 0,
+              }}
+            >
               {mission.description}
             </p>
 
@@ -223,176 +281,146 @@ function MissionCard({ mission, index, delay, theme }: { mission: Mission; index
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}
+              style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}
             >
-              {mission.tags.map(tag => (
-                <motion.span key={tag} variants={tagItem} style={{
-                  fontFamily: theme.fontBody,
-                  fontWeight: 700,
-                  fontSize: '0.78rem',
-                  color: '#1a1a1a',
-                  background: 'white',
-                  border: '2px solid #1a1a1a',
-                  boxShadow: '2px 2px 0 #1a1a1a',
-                  padding: '2px 10px',
-                }}>
+              {mission.tags.map((tag) => (
+                <motion.span
+                  key={tag}
+                  variants={tagItem}
+                  style={{
+                    fontFamily: theme.fontBody,
+                    fontWeight: 700,
+                    fontSize: "0.78rem",
+                    color: "#1a1a1a",
+                    background: "white",
+                    border: "2px solid #1a1a1a",
+                    boxShadow: "2px 2px 0 #1a1a1a",
+                    padding: "2px 10px",
+                  }}
+                >
                   {tag}
                 </motion.span>
               ))}
             </motion.div>
 
             <button
-              onClick={() => mission.url && window.open(mission.url, '_blank')}
+              onClick={() => mission.url && window.open(mission.url, "_blank")}
               disabled={!mission.url}
               style={{
-                alignSelf: 'flex-start', marginTop: 'auto',
-                background: mission.url ? theme.accent : '#e0e0e0',
-                border: '2px solid #1a1a1a',
-                boxShadow: mission.url ? '3px 3px 0 #1a1a1a' : 'none',
-                color: '#1a1a1a',
+                alignSelf: "flex-start",
+                marginTop: "auto",
+                background: mission.url ? theme.accent : "#e0e0e0",
+                border: "2px solid #1a1a1a",
+                boxShadow: mission.url ? "3px 3px 0 #1a1a1a" : "none",
+                color: "#1a1a1a",
                 fontFamily: theme.fontHeading,
                 fontWeight: 400,
-                fontSize: '1rem',
-                padding: '6px 18px',
-                cursor: mission.url ? 'pointer' : 'not-allowed',
-                transition: 'all 0.1s',
+                fontSize: "1rem",
+                padding: "6px 18px",
+                cursor: mission.url ? "pointer" : "not-allowed",
+                transition: "all 0.1s",
                 opacity: mission.url ? 1 : 0.5,
               }}
-              onMouseDown={e => { if (!mission.url) return; (e.target as HTMLButtonElement).style.transform = 'translate(2px,2px)'; (e.target as HTMLButtonElement).style.boxShadow = '1px 1px 0 #1a1a1a'; }}
-              onMouseUp={e => { (e.target as HTMLButtonElement).style.transform = 'none'; (e.target as HTMLButtonElement).style.boxShadow = mission.url ? '3px 3px 0 #1a1a1a' : 'none'; }}
-              onMouseLeave={e => { (e.target as HTMLButtonElement).style.transform = 'none'; (e.target as HTMLButtonElement).style.boxShadow = mission.url ? '3px 3px 0 #1a1a1a' : 'none'; }}
+              onMouseDown={(e) => {
+                if (!mission.url) return;
+                (e.target as HTMLButtonElement).style.transform =
+                  "translate(2px,2px)";
+                (e.target as HTMLButtonElement).style.boxShadow =
+                  "1px 1px 0 #1a1a1a";
+              }}
+              onMouseUp={(e) => {
+                (e.target as HTMLButtonElement).style.transform = "none";
+                (e.target as HTMLButtonElement).style.boxShadow = mission.url
+                  ? "3px 3px 0 #1a1a1a"
+                  : "none";
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLButtonElement).style.transform = "none";
+                (e.target as HTMLButtonElement).style.boxShadow = mission.url
+                  ? "3px 3px 0 #1a1a1a"
+                  : "none";
+              }}
             >
               OPEN →
             </button>
           </div>
         </>
-      ) : isNewspaper ? (
-        /* ── Newspaper article card ── */
-        <div style={{ padding: '1.2rem 1.4rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
-          {/* Dateline */}
-          <div style={{
-            background: '#E8E4D8',
-            padding: '3px 8px',
-            fontFamily: theme.fontBody,
-            fontStyle: 'italic',
-            fontSize: '0.72rem',
-            color: '#555555',
-            letterSpacing: '0.06em',
-          }}>
-            {mission.id} &nbsp;·&nbsp; {mission.status === 'COMPLETED' ? 'Filed' : 'In Progress'}
-          </div>
-
-          {/* Article headline */}
-          <div style={{
-            fontFamily: theme.fontHeading,
-            fontWeight: 700,
-            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-            color: theme.secondary,
-            lineHeight: 1.2,
-            borderBottom: '1px solid #AAAAAA',
-            paddingBottom: '0.5rem',
-          }}>
-            {mission.title}
-          </div>
-
-          {/* Article body */}
-          <p style={{
-            fontFamily: theme.fontBody,
-            fontSize: '0.82rem',
-            color: theme.cardText,
-            lineHeight: 1.7,
-            margin: 0,
-            textAlign: 'justify',
-          }}>
-            {mission.description}
-          </p>
-
-          {/* Tags — category labels */}
-          <motion.div
-            variants={tagContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}
-          >
-            {mission.tags.map(tag => (
-              <motion.span key={tag} variants={tagItem} style={{
-                fontFamily: theme.fontBody,
-                fontSize: '0.7rem',
-                fontWeight: 700,
-                color: theme.dim,
-                border: `1px solid #AAAAAA`,
-                padding: '2px 8px',
-                textTransform: 'uppercase' as const,
-                letterSpacing: '0.08em',
-              }}>
-                {tag}
-              </motion.span>
-            ))}
-          </motion.div>
-
-          <button
-            onClick={() => mission.url && window.open(mission.url, '_blank')}
-            disabled={!mission.url}
+      ) : isCrossing ? (
+        <>
+          <div
             style={{
-              alignSelf: 'flex-start', marginTop: 'auto',
-              background: 'none',
-              border: 'none',
-              borderBottom: mission.url ? `1px solid ${theme.primary}` : 'none',
-              color: mission.url ? theme.primary : theme.dim,
-              fontFamily: theme.fontBody,
-              fontStyle: 'italic',
-              fontSize: '0.82rem',
-              padding: '2px 0',
-              cursor: mission.url ? 'pointer' : 'not-allowed',
-              transition: 'all 0.2s',
-              opacity: mission.url ? 1 : 0.5,
+              background: `linear-gradient(135deg, ${theme.secondary}, ${theme.primary})`,
+              padding: "1rem 1.2rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
             }}
           >
-            {mission.url ? 'Read full report →' : 'Report pending'}
-          </button>
-        </div>
-      ) : isCrossing ? (
-        /* ── AC notice-board card ── */
-        <>
-          <div style={{
-            background: `linear-gradient(135deg, ${theme.secondary}, ${theme.primary})`,
-            padding: '1rem 1.2rem',
-            display: 'flex', alignItems: 'center', gap: '0.75rem',
-          }}>
             <motion.span
               initial={{ scale: 0, rotate: -180 }}
               whileInView={{ scale: 1, rotate: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 12, delay: delay + 0.2 }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 12,
+                delay: delay + 0.2,
+              }}
               viewport={{ once: true }}
-              style={{ fontSize: '2rem', display: 'inline-block' }}
+              style={{ fontSize: "2rem", display: "inline-block" }}
             >
               {mission.emoji}
             </motion.span>
             <div>
-              <div style={{
-                fontFamily: theme.fontHeading, fontWeight: 800,
-                fontSize: '1rem', color: 'white',
-              }}>
+              <div
+                style={{
+                  fontFamily: theme.fontHeading,
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  color: "white",
+                }}
+              >
                 {mission.title}
               </div>
-              <div style={{
-                display: 'inline-block', marginTop: '3px',
-                background: mission.status === 'COMPLETED' ? 'rgba(255,255,255,0.3)' : theme.accent,
-                color: 'white',
-                fontFamily: theme.fontBody, fontWeight: 700, fontSize: '0.7rem',
-                padding: '1px 8px', borderRadius: '10px',
-              }}>
-                {mission.status === 'COMPLETED' ? '✓ Done' : '★ Active'}
+              <div
+                style={{
+                  display: "inline-block",
+                  marginTop: "3px",
+                  background:
+                    mission.status === "COMPLETED"
+                      ? "rgba(255,255,255,0.3)"
+                      : theme.accent,
+                  color: "white",
+                  fontFamily: theme.fontBody,
+                  fontWeight: 700,
+                  fontSize: "0.7rem",
+                  padding: "1px 8px",
+                  borderRadius: "10px",
+                }}
+              >
+                {mission.status === "COMPLETED" ? "✓ Done" : "★ Active"}
               </div>
             </div>
           </div>
 
-          <div style={{ padding: '1rem 1.2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
-            <p style={{
-              fontFamily: theme.fontBody, fontSize: '0.95rem', fontWeight: 500,
-              color: theme.cardText, lineHeight: 1.6, margin: 0,
-            }}>
+          <div
+            style={{
+              padding: "1rem 1.2rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.75rem",
+              flex: 1,
+            }}
+          >
+            <p
+              style={{
+                fontFamily: theme.fontBody,
+                fontSize: "0.95rem",
+                fontWeight: 500,
+                color: theme.cardText,
+                lineHeight: 1.6,
+                margin: 0,
+              }}
+            >
               {mission.description}
             </p>
 
@@ -401,49 +429,91 @@ function MissionCard({ mission, index, delay, theme }: { mission: Mission; index
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}
+              style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}
             >
-              {mission.tags.map(tag => (
-                <motion.span key={tag} variants={tagItem} style={{
-                  fontFamily: theme.fontBody, fontWeight: 700, fontSize: '0.78rem',
-                  color: theme.secondary,
-                  background: `${theme.secondary}18`,
-                  border: `1.5px solid ${theme.secondary}55`,
-                  padding: '2px 10px', borderRadius: '12px',
-                }}>
+              {mission.tags.map((tag) => (
+                <motion.span
+                  key={tag}
+                  variants={tagItem}
+                  style={{
+                    fontFamily: theme.fontBody,
+                    fontWeight: 700,
+                    fontSize: "0.78rem",
+                    color: theme.secondary,
+                    background: `${theme.secondary}18`,
+                    border: `1.5px solid ${theme.secondary}55`,
+                    padding: "2px 10px",
+                    borderRadius: "12px",
+                  }}
+                >
                   {tag}
                 </motion.span>
               ))}
             </motion.div>
 
             <button
-              onClick={() => mission.url && window.open(mission.url, '_blank')}
+              onClick={() => mission.url && window.open(mission.url, "_blank")}
               disabled={!mission.url}
               style={{
-                alignSelf: 'flex-start', marginTop: 'auto',
-                background: mission.url ? theme.accent : '#ccc',
-                border: 'none',
-                borderRadius: '20px',
-                color: mission.url ? theme.text : '#888',
-                fontFamily: theme.fontHeading, fontWeight: 800, fontSize: '0.85rem',
-                padding: '8px 20px',
-                cursor: mission.url ? 'pointer' : 'not-allowed',
-                boxShadow: mission.url ? `0 4px 0 #c8a010` : 'none',
-                transition: 'all 0.1s',
+                alignSelf: "flex-start",
+                marginTop: "auto",
+                background: mission.url ? theme.accent : "#ccc",
+                border: "none",
+                borderRadius: "20px",
+                color: mission.url ? theme.text : "#888",
+                fontFamily: theme.fontHeading,
+                fontWeight: 800,
+                fontSize: "0.85rem",
+                padding: "8px 20px",
+                cursor: mission.url ? "pointer" : "not-allowed",
+                boxShadow: mission.url ? `0 4px 0 #c8a010` : "none",
+                transition: "all 0.1s",
                 opacity: mission.url ? 1 : 0.5,
               }}
-              onMouseEnter={e => { if (!mission.url) return; (e.target as HTMLButtonElement).style.transform = 'translateY(2px)'; (e.target as HTMLButtonElement).style.boxShadow = '0 2px 0 #c8a010'; }}
-              onMouseLeave={e => { (e.target as HTMLButtonElement).style.transform = 'none'; (e.target as HTMLButtonElement).style.boxShadow = mission.url ? '0 4px 0 #c8a010' : 'none'; }}
+              onMouseEnter={(e) => {
+                if (!mission.url) return;
+                (e.target as HTMLButtonElement).style.transform =
+                  "translateY(2px)";
+                (e.target as HTMLButtonElement).style.boxShadow =
+                  "0 2px 0 #c8a010";
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLButtonElement).style.transform = "none";
+                (e.target as HTMLButtonElement).style.boxShadow = mission.url
+                  ? "0 4px 0 #c8a010"
+                  : "none";
+              }}
             >
-              Open  →
+              Open →
             </button>
           </div>
         </>
       ) : (
         /* ── HUD mission card ── */
-        <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontFamily: theme.fontBody, fontSize: '0.78rem', color: theme.cardDim, letterSpacing: '0.15em' }}>
+        <div
+          style={{
+            padding: "1.5rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.75rem",
+            flex: 1,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: theme.fontBody,
+                fontSize: "0.78rem",
+                color: theme.cardDim,
+                letterSpacing: "0.15em",
+              }}
+            >
               {mission.id}
             </span>
             <motion.span
@@ -452,18 +522,36 @@ function MissionCard({ mission, index, delay, theme }: { mission: Mission; index
               transition={{ duration: 0.4, delay: delay + 0.3 }}
               viewport={{ once: true }}
               style={{
-                fontFamily: theme.fontBody, fontSize: '0.75rem',
-                color: statusColor, border: `1px solid ${statusColor}`,
-                padding: '2px 8px', borderRadius: '2px', letterSpacing: '0.1em',
+                fontFamily: theme.fontBody,
+                fontSize: "0.75rem",
+                color: statusColor,
+                border: `1px solid ${statusColor}`,
+                padding: "2px 8px",
+                borderRadius: "2px",
+                letterSpacing: "0.1em",
               }}
             >
               {mission.status}
             </motion.span>
           </div>
-          <div style={{ fontFamily: theme.fontHeading, fontSize: '0.9rem', color: theme.cardText, letterSpacing: '0.08em' }}>
+          <div
+            style={{
+              fontFamily: theme.fontHeading,
+              fontSize: "0.9rem",
+              color: theme.cardText,
+              letterSpacing: "0.08em",
+            }}
+          >
             {mission.title}
           </div>
-          <div style={{ fontFamily: theme.fontBody, fontSize: '0.82rem', color: theme.cardText, lineHeight: 1.6 }}>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: "0.88rem",
+              color: theme.cardText,
+              lineHeight: 1.65,
+            }}
+          >
             {mission.description}
           </div>
           <motion.div
@@ -471,31 +559,50 @@ function MissionCard({ mission, index, delay, theme }: { mission: Mission; index
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}
+            style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}
           >
-            {mission.tags.map(tag => (
-              <motion.span key={tag} variants={tagItem} style={{
-                fontFamily: theme.fontBody, fontSize: '0.75rem', color: theme.primary,
-                border: `1px solid ${theme.border}`, padding: '2px 8px', borderRadius: '2px',
-              }}>
+            {mission.tags.map((tag) => (
+              <motion.span
+                key={tag}
+                variants={tagItem}
+                style={{
+                  fontFamily: theme.fontBody,
+                  fontSize: "0.78rem",
+                  color: theme.primary,
+                  border: `1px solid ${theme.border}`,
+                  padding: "2px 8px",
+                  borderRadius: "2px",
+                }}
+              >
                 {tag}
               </motion.span>
             ))}
           </motion.div>
           <button
-            onClick={() => mission.url && window.open(mission.url, '_blank')}
+            onClick={() => mission.url && window.open(mission.url, "_blank")}
             disabled={!mission.url}
             style={{
-              alignSelf: 'flex-start', background: 'none',
+              alignSelf: "flex-start",
+              background: "none",
               border: `1px solid ${mission.url ? theme.primary : theme.dim}`,
               color: mission.url ? theme.primary : theme.dim,
-              fontFamily: theme.fontBody, fontSize: '0.72rem',
-              padding: '6px 14px', cursor: mission.url ? 'pointer' : 'not-allowed',
-              letterSpacing: '0.1em', borderRadius: '2px',
-              opacity: mission.url ? 1 : 0.5, transition: 'all 0.2s',
+              fontFamily: theme.fontBody,
+              fontSize: "0.75rem",
+              padding: "6px 14px",
+              cursor: mission.url ? "pointer" : "not-allowed",
+              letterSpacing: "0.1em",
+              borderRadius: "2px",
+              opacity: mission.url ? 1 : 0.5,
+              transition: "all 0.2s",
             }}
-            onMouseEnter={e => { if (!mission.url) return; (e.target as HTMLButtonElement).style.background = `${theme.primary}22`; }}
-            onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = 'none'; }}
+            onMouseEnter={(e) => {
+              if (!mission.url) return;
+              (e.target as HTMLButtonElement).style.background =
+                `${theme.primary}22`;
+            }}
+            onMouseLeave={(e) => {
+              (e.target as HTMLButtonElement).style.background = "none";
+            }}
           >
             [ LAUNCH &gt; ]
           </button>
@@ -507,46 +614,65 @@ function MissionCard({ mission, index, delay, theme }: { mission: Mission; index
 
 export function ProjectsSection() {
   const { theme } = usePortfolioTheme();
-  const isCrossing  = theme.id === 'crossing';
-  const isComic     = theme.id === 'comic';
-  const isNewspaper = theme.id === 'newspaper';
+  const isCrossing = theme.id === "crossing";
+  const isComic = theme.id === "comic";
 
   let sectionBg: string;
-  if (isComic)          sectionBg = '#E8F0FF';
-  else if (isNewspaper) sectionBg = '#F0EBD8';
-  else if (isCrossing)  sectionBg = 'linear-gradient(180deg, #dff0d0 0%, #e8f5e0 100%)';
-  else                  sectionBg = `linear-gradient(180deg, ${theme.bg} 0%, ${theme.surface}44 50%, ${theme.bg} 100%)`;
+  if (isComic) sectionBg = "#E8F0FF";
+  else if (isCrossing)
+    sectionBg = "linear-gradient(180deg, #dff0d0 0%, #e8f5e0 100%)";
+  else
+    sectionBg = `linear-gradient(180deg, ${theme.bg} 0%, ${theme.surface}44 50%, ${theme.bg} 100%)`;
 
   return (
     <section
       id="projects"
       style={{
-        minHeight: '100vh',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        padding: '6rem 2rem 4rem',
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "6rem 2rem 4rem",
         background: sectionBg,
-        transition: 'background 0.5s',
+        transition: "background 0.5s",
       }}
     >
       <motion.div
         initial={{ opacity: 0, x: -40 }}
         whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         viewport={{ once: true }}
       >
-        <SectionHeading label={theme.sectionLabel('02', 'Projects')} theme={theme} maxWidth="960px" />
+        <SectionHeading
+          label={theme.sectionLabel("03", "Projects")}
+          theme={theme}
+          maxWidth="960px"
+        />
       </motion.div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-        gap: (isCrossing || isComic) ? '2rem' : '1.5rem',
-        maxWidth: '960px', width: '100%',
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gap: isCrossing || isComic ? "2rem" : "1.5rem",
+          maxWidth: "960px",
+          width: "100%",
+        }}
+      >
         {MISSIONS.map((m, i) => (
-          <MissionCard key={m.id} mission={m} index={i} delay={i * 0.12} theme={theme} />
+          <MissionCard
+            key={m.id}
+            mission={m}
+            index={i}
+            delay={i * 0.12}
+            theme={theme}
+          />
         ))}
       </div>
+
+      {/* Hopping character */}
+      <HopCharacter />
     </section>
   );
 }
