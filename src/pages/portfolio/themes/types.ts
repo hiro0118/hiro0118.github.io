@@ -1,4 +1,4 @@
-export type ThemeId = 'hud' | 'crossing' | 'comic' | 'newspaper';
+export type ThemeId = "hud" | "crossing" | "comic";
 
 export interface PortfolioTheme {
   id: ThemeId;
@@ -11,7 +11,7 @@ export interface PortfolioTheme {
   primary: string;
   secondary: string;
   accent: string;
-  text: string;   // text on world bg
+  text: string; // text on world bg
   dim: string;
 
   // Fonts
@@ -19,7 +19,7 @@ export interface PortfolioTheme {
   fontBody: string;
 
   // Card / dialog box
-  cardVariant: 'corners' | 'dialog';
+  cardVariant: "corners" | "dialog";
   card: {
     background?: string;
     border: string;
