@@ -2,6 +2,18 @@ import { useEffect, useState } from "react";
 import { usePortfolioTheme, THEMES } from "./ThemeContext";
 import { ThemeId } from "./themes/types";
 
+function useIsMobile(breakpoint = 600) {
+  const [isMobile, setIsMobile] = useState(
+    () => window.innerWidth < breakpoint,
+  );
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 const NAV_ITEMS = ["HERO", "BIO", "SKILLS", "PROJECTS"] as const;
 
 const NAV_LABELS_AC: Record<string, string> = {
@@ -20,6 +32,7 @@ const NAV_LABELS_COMIC: Record<string, string> = {
 export function HudNav() {
   const { theme, setThemeId } = usePortfolioTheme();
   const [active, setActive] = useState<string>("HERO");
+  const isMobile = useIsMobile();
   const isCrossing = theme.id === "crossing";
   const isComic = theme.id === "comic";
 
@@ -94,38 +107,94 @@ export function HudNav() {
         width: "100%",
         zIndex: 100,
         display: "flex",
-        alignItems: "center",
+        flexDirection: isMobile ? "column" : "row",
+        alignItems: isMobile ? "stretch" : "center",
         justifyContent: "space-between",
-        padding: "0 2rem",
-        height: "56px",
+        padding: isMobile ? "0.4rem 1rem" : "0 2rem",
+        height: isMobile ? "auto" : "56px",
         background: navBg,
         backdropFilter: isComic ? "none" : "blur(10px)",
         borderBottom: navBorder,
         boxShadow: navShadow,
         transition: "background 0.4s, border-color 0.4s",
+        boxSizing: "border-box",
       }}
     >
-      {/* Logo */}
-      <span
-        style={{
-          fontFamily: theme.fontHeading,
-          fontWeight: logoWeight,
-          fontSize: logoSize,
-          color: logoColor,
-          letterSpacing: logoSpacing,
-          animation:
-            theme.glowAnimation === "none" ? undefined : theme.glowAnimation,
-          userSelect: "none",
-        }}
-      >
-        {logoText}
-      </span>
-
+      {/* Row 1: logo + theme selector (mobile) / logo alone (desktop) */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: theme.fontHeading,
+            fontWeight: logoWeight,
+            fontSize: logoSize,
+            color: logoColor,
+            letterSpacing: logoSpacing,
+            animation:
+              theme.glowAnimation === "none" ? undefined : theme.glowAnimation,
+            userSelect: "none",
+          }}
+        >
+          {logoText}
+        </span>
+
+        {/* Theme selector shown inline with logo on mobile */}
+        {isMobile && (
+          <select
+            value={theme.id}
+            onChange={(e) => setThemeId(e.target.value as ThemeId)}
+            style={{
+              background: isComic
+                ? "#FFFFFF"
+                : isCrossing
+                  ? theme.card.background
+                  : theme.surface,
+              border: isComic
+                ? "2px solid #1a1a1a"
+                : isCrossing
+                  ? `2px solid ${theme.secondary}`
+                  : `1px solid ${theme.border}`,
+              color: isComic
+                ? "#1a1a1a"
+                : isCrossing
+                  ? theme.secondary
+                  : theme.primary,
+              fontFamily: theme.fontHeading,
+              fontWeight: isCrossing || isComic ? 700 : 400,
+              fontSize: "0.8rem",
+              padding: "4px 8px",
+              cursor: "pointer",
+              borderRadius: isComic ? "3px" : isCrossing ? "12px" : "2px",
+              outline: "none",
+              boxShadow: isComic
+                ? "2px 2px 0 #1a1a1a"
+                : isCrossing
+                  ? `0 3px 0 #3a7e32`
+                  : "none",
+            }}
+          >
+            {THEMES.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.displayName}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+
+      {/* Row 2 (mobile) / right section (desktop): nav buttons + theme selector */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: isMobile ? "space-between" : "flex-end",
           gap: isComic ? "0.2rem" : isCrossing ? "0.25rem" : "0.5rem",
+          marginTop: isMobile ? "0.3rem" : 0,
         }}
       >
         {NAV_ITEMS.map((item) => {
@@ -216,47 +285,49 @@ export function HudNav() {
           );
         })}
 
-        {/* Theme selector */}
-        <select
-          value={theme.id}
-          onChange={(e) => setThemeId(e.target.value as ThemeId)}
-          style={{
-            marginLeft: "0.75rem",
-            background: isComic
-              ? "#FFFFFF"
-              : isCrossing
-                ? theme.card.background
-                : theme.surface,
-            border: isComic
-              ? "2px solid #1a1a1a"
-              : isCrossing
-                ? `2px solid ${theme.secondary}`
-                : `1px solid ${theme.border}`,
-            color: isComic
-              ? "#1a1a1a"
-              : isCrossing
-                ? theme.secondary
-                : theme.primary,
-            fontFamily: theme.fontHeading,
-            fontWeight: isCrossing || isComic ? 700 : 400,
-            fontSize: isComic ? "0.85rem" : isCrossing ? "0.8rem" : "0.72rem",
-            padding: isCrossing ? "5px 10px" : "4px 8px",
-            cursor: "pointer",
-            borderRadius: isComic ? "3px" : isCrossing ? "12px" : "2px",
-            outline: "none",
-            boxShadow: isComic
-              ? "2px 2px 0 #1a1a1a"
-              : isCrossing
-                ? `0 3px 0 #3a7e32`
-                : "none",
-          }}
-        >
-          {THEMES.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.displayName}
-            </option>
-          ))}
-        </select>
+        {/* Theme selector — desktop only (mobile version is in row 1) */}
+        {!isMobile && (
+          <select
+            value={theme.id}
+            onChange={(e) => setThemeId(e.target.value as ThemeId)}
+            style={{
+              marginLeft: "0.75rem",
+              background: isComic
+                ? "#FFFFFF"
+                : isCrossing
+                  ? theme.card.background
+                  : theme.surface,
+              border: isComic
+                ? "2px solid #1a1a1a"
+                : isCrossing
+                  ? `2px solid ${theme.secondary}`
+                  : `1px solid ${theme.border}`,
+              color: isComic
+                ? "#1a1a1a"
+                : isCrossing
+                  ? theme.secondary
+                  : theme.primary,
+              fontFamily: theme.fontHeading,
+              fontWeight: isCrossing || isComic ? 700 : 400,
+              fontSize: isComic ? "0.85rem" : isCrossing ? "0.8rem" : "0.72rem",
+              padding: isCrossing ? "5px 10px" : "4px 8px",
+              cursor: "pointer",
+              borderRadius: isComic ? "3px" : isCrossing ? "12px" : "2px",
+              outline: "none",
+              boxShadow: isComic
+                ? "2px 2px 0 #1a1a1a"
+                : isCrossing
+                  ? `0 3px 0 #3a7e32`
+                  : "none",
+            }}
+          >
+            {THEMES.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.displayName}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
     </nav>
   );

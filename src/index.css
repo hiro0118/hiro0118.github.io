@@ -6,6 +6,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -180,61 +181,51 @@ body {
 
 /* ── Section character animations ── */
 
-/* Bio: walk left to right, then loop */
-@keyframes char-walk-x {
-  from {
-    left: -60px;
-  }
-  to {
-    left: calc(100% + 10px);
-  }
-}
-
-@keyframes char-bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-7px);
-  }
-}
-
-/* Skills: float in a slow oval orbit */
-@keyframes char-orbit {
+/* Bio: float gently within a bounded pane — no end-to-end travel */
+@keyframes char-float-pane {
   0% {
-    transform: translate(0px, 0px);
+    transform: translate(-50%, -50%) translate(0px, 0px);
   }
-  25% {
-    transform: translate(22px, -18px);
+  15% {
+    transform: translate(-50%, -50%) translate(26px, -12px);
   }
-  50% {
-    transform: translate(0px, -30px);
+  35% {
+    transform: translate(-50%, -50%) translate(14px, 14px);
+  }
+  55% {
+    transform: translate(-50%, -50%) translate(-24px, -8px);
   }
   75% {
-    transform: translate(-22px, -18px);
+    transform: translate(-50%, -50%) translate(-16px, 16px);
+  }
+  90% {
+    transform: translate(-50%, -50%) translate(8px, -6px);
   }
   100% {
-    transform: translate(0px, 0px);
+    transform: translate(-50%, -50%) translate(0px, 0px);
   }
 }
 
-/* Projects: hop in arcs left to right, then loop */
-@keyframes char-hop-move {
-  from {
-    left: -60px;
+/* Projects: expanding sonar / ripple rings */
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0.85;
   }
-  to {
-    left: calc(100% + 10px);
+  100% {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
   }
 }
 
-@keyframes char-hop-y {
-  0%,
-  100% {
-    transform: translateY(0);
+/* Projects (Comic): expanding rotated-square burst */
+@keyframes pulse-ring-sq {
+  0% {
+    transform: translate(-50%, -50%) rotate(45deg) scale(0.3);
+    opacity: 0.85;
   }
-  50% {
-    transform: translateY(-38px);
+  100% {
+    transform: translate(-50%, -50%) rotate(45deg) scale(4);
+    opacity: 0;
   }
 }

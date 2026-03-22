@@ -9,7 +9,10 @@ npm start          # Start dev server
 npm test           # Run tests
 npm run build      # Production build
 npm run deploy     # Build and deploy to GitHub Pages (gh-pages -d build)
+./serve-local.sh   # Start dev server on 0.0.0.0 for LAN access (e.g. from a phone)
 ```
+
+When the user asks to deploy or run the app locally, use `./serve-local.sh`.
 
 ## Environment
 

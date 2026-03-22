@@ -1,3 +1,18 @@
+---
+name: workflow
+description: Manage the full GitHub issue lifecycle — from filing to implementation to PR. Use when the user invokes /workflow, provides an issue number to implement, asks to "work on issue #N", "fix issue", "implement issue", "create an issue for X", or wants to take a GitHub issue through the full dev cycle (branch → code → PR).
+user-invocable: true
+argument-hint: <issue-number or description>
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Edit
+  - Write
+  - Bash(git *)
+  - Bash(gh *)
+---
+
 # Issue Workflow
 
 This skill manages the full lifecycle of a GitHub issue: from filing to implementation to PR.
@@ -90,9 +105,9 @@ Fix any issues found before proceeding.
 
 ---
 
-## Step 6 — Commit and push
+## Step 6 — Commit, summarise, and push
 
-Stage only the files you changed and push. Run each command separately:
+Stage only the files you changed. Run each command separately:
 
 ```
 git add <file1> <file2> ...
@@ -102,8 +117,12 @@ git add <file1> <file2> ...
 git commit -m "<clear commit message>"
 ```
 
+Before pushing, present a concise summary of all changes made (files touched, what changed, why) and ask the user: **"Ready to push and open a PR?"** Wait for explicit confirmation before running `git push`.
+
+Once the user confirms:
+
 ```
-git push
+git push -u origin HEAD
 ```
 
 Create a PR using this format:

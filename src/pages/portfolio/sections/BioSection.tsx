@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { usePortfolioTheme } from "../ThemeContext";
 import { CardFrame } from "../CardFrame";
-import { WalkCharacter } from "../SectionCharacter";
+import { FloatCharacter } from "../SectionCharacter";
 import { PortfolioTheme } from "../themes/types";
 
 const DOSSIER = [
@@ -245,20 +245,31 @@ export function BioSection() {
     <section
       id="bio"
       style={{
+        position: "relative",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         padding: "6rem 2rem 4rem",
+        overflow: "hidden",
         background: sectionBg,
         transition: "background 0.5s",
       }}
     >
-      <SectionHeading
-        label={theme.sectionLabel("01", "About Me")}
-        theme={theme}
-      />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          maxWidth: "900px",
+        }}
+      >
+        <SectionHeading
+          label={theme.sectionLabel("01", "About Me")}
+          theme={theme}
+        />
+      </div>
 
       <div
         style={{
@@ -268,6 +279,8 @@ export function BioSection() {
           width: "100%",
           flexWrap: "wrap",
           alignItems: "flex-start",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* Avatar */}
@@ -576,8 +589,8 @@ export function BioSection() {
         </motion.div>
       </div>
 
-      {/* Walking character */}
-      <WalkCharacter />
+      {/* Floating shapes */}
+      <FloatCharacter />
     </section>
   );
 }

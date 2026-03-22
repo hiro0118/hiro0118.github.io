@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { usePortfolioTheme } from "../ThemeContext";
 import { CardFrame } from "../CardFrame";
-import { OrbitCharacter } from "../SectionCharacter";
+import { SkillsAnimation } from "../SkillsAnimation";
 import { PortfolioTheme } from "../themes/types";
 
 interface SkillGroup {
@@ -176,15 +176,11 @@ function SkillGroupCard({
     return () => cancelAnimationFrame(rafId);
   }, [inView, group.power, isCrossing, isComic]);
 
-  const xDir = index % 3 === 0 ? -55 : index % 3 === 2 ? 55 : 0;
-  const yDir = index % 3 === 1 ? -40 : 0;
-  const rotInit = isComic ? (index % 2 === 0 ? -4 : 4) : 0;
-
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, x: xDir, y: yDir, rotate: rotInit }}
-      whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       whileHover={theme.cardHover}
       transition={{
         duration: 0.55,
@@ -201,6 +197,7 @@ function SkillGroupCard({
         position: "relative",
         overflow: "hidden",
         cursor: "default",
+        height: "100%",
       }}
     >
       <CardFrame theme={theme} size={10} />
@@ -554,6 +551,7 @@ export function SkillsSection() {
       style={{
         minHeight: "100vh",
         position: "relative",
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -563,8 +561,8 @@ export function SkillsSection() {
         transition: "background 0.5s",
       }}
     >
-      {/* Orbiting character near section heading */}
-      <OrbitCharacter />
+      {/* Canvas ambient animation */}
+      <SkillsAnimation />
 
       <motion.div
         initial={{ opacity: 0, x: -40 }}

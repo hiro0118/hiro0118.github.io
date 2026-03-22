@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { usePortfolioTheme } from "../ThemeContext";
 import { CardFrame } from "../CardFrame";
-import { HopCharacter } from "../SectionCharacter";
+import { ProjectsAnimation } from "../ProjectsAnimation";
 import { PortfolioTheme } from "../themes/types";
 
 interface Mission {
@@ -165,14 +165,10 @@ function MissionCard({
   const statusColor =
     mission.status === "COMPLETED" ? theme.secondary : theme.accent;
 
-  const xDir = index % 3 === 0 ? -60 : index % 3 === 2 ? 60 : 0;
-  const yDir = index % 3 === 1 ? 55 : 0;
-  const rotInit = isComic ? (index % 2 === 0 ? -4 : 4) : 0;
-
   return (
     <motion.div
-      initial={{ opacity: 0, x: xDir, y: yDir, rotate: rotInit }}
-      whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       whileHover={theme.cardHover}
       transition={{
         duration: 0.55,
@@ -191,6 +187,7 @@ function MissionCard({
         flexDirection: "column",
         overflow: "hidden",
         cursor: "default",
+        height: "100%",
       }}
     >
       <CardFrame theme={theme} size={10} />
@@ -629,6 +626,8 @@ export function ProjectsSection() {
       id="projects"
       style={{
         minHeight: "100vh",
+        position: "relative",
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -671,8 +670,8 @@ export function ProjectsSection() {
         ))}
       </div>
 
-      {/* Hopping character */}
-      <HopCharacter />
+      {/* Pulse animation */}
+      <ProjectsAnimation />
     </section>
   );
 }

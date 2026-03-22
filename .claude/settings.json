@@ -1,20 +1,22 @@
 {
-  "allowedTools": [
-    "Edit(src/**)",
-    "Edit(public/**)",
-    "Write(src/**)",
-    "Write(public/**)",
-    "Read",
-    "Bash(gh issue*)",
-    "Bash(gh label*)",
-    "Bash(gh pr view*)",
-    "Bash(gh pr create*)",
-    "Bash(gh pr list*)",
-    "Bash(gh api*)",
-    "Bash(git fetch*)",
-    "Bash(git checkout*)",
-    "Bash(git add*)",
-    "Bash(git commit*)",
-    "Bash(git push*)"
-  ]
+  "permissions": {
+    "allow": [
+      "Edit(src/**)",
+      "Edit(public/**)",
+      "Write(src/**)",
+      "Write(public/**)",
+      "Read",
+      "Bash(gh issue:*)",
+      "Bash(gh label:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh api:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npx tsc:*)"
+    ]
+  }
 }
