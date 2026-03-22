@@ -78,13 +78,23 @@ Fix any issues found before proceeding.
 
 ## Step 6 — Commit and push
 
-Stage only the files you changed (do not use `git add -A`). Write a clear commit message. Push and create a PR to `master`:
+Stage only the files you changed (do not use `git add -A`). Write a clear, human commit message with no author attribution.
+
+Push and create a PR to `master` using this exact format:
 
 ```
-gh pr create --title "..." --body "..." --base master
-```
+gh pr create --title "<short imperative title>" --body "$(cat <<'EOF'
+## What
+<1–3 sentences describing what changed and why>
 
-PR body: one Summary section with bullet points. No test plan. No "Generated with Claude Code" footer.
+## Changes
+- <file or component>: <what changed>
+- <file or component>: <what changed>
+
+Closes #<issue-number>
+EOF
+)" --base master
+```
 
 Return the PR URL to the user, then provide a concise summary of all changes made in the chat.
 
