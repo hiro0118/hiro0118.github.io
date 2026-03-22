@@ -5,15 +5,16 @@
     "Write(src/**)",
     "Write(public/**)",
     "Read",
-    "Bash(*issue-view.sh*)",
-    "Bash(*issue-list.sh*)",
-    "Bash(*issue-create.sh*)",
-    "Bash(*issue-edit.sh*)",
-    "Bash(*git-branch.sh*)",
-    "Bash(*git-commit-push.sh*)",
-    "Bash(*pr-create.sh*)",
-    "Bash(*pr-view.sh*)",
-    "Bash(*pr-comments.sh*)",
-    "Bash(*pr-comment-reply.sh*)"
+    "Bash(gh issue*)",
+    "Bash(gh label*)",
+    "Bash(gh pr view*)",
+    "Bash(gh pr create*)",
+    "Bash(gh pr list*)",
+    "Bash(gh api*)",
+    "Bash(git fetch*)",
+    "Bash(git checkout*)",
+    "Bash(git add*)",
+    "Bash(git commit*)",
+    "Bash(git push*)"
   ]
 }

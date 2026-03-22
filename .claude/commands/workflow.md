@@ -2,7 +2,7 @@
 
 This skill manages the full lifecycle of a GitHub issue: from filing to implementation to PR.
 
-All git and GitHub operations use pre-defined scripts in `.claude/scripts/` which run without approval prompts. **Merging is the only exception — it always requires explicit user approval.**
+All git and GitHub operations run without approval prompts. **Merging is the only exception — it always requires explicit user approval.**
 
 ---
 
@@ -11,13 +11,13 @@ All git and GitHub operations use pre-defined scripts in `.claude/scripts/` whic
 If `$ARGUMENTS` is a number, fetch that issue:
 
 ```
-.claude/scripts/issue-view.sh <number>
+gh issue view <number>
 ```
 
 If `$ARGUMENTS` is a description (not a number), search open issues for a match:
 
 ```
-.claude/scripts/issue-list.sh
+gh issue list --state open --limit 50
 ```
 
 Pick the best match and confirm with the user. If no good match exists, offer to create a new issue.
@@ -26,7 +26,7 @@ Pick the best match and confirm with the user. If no good match exists, offer to
 
 ```
 gh label list
-.claude/scripts/issue-create.sh --title "..." --body "..." --label "..."
+gh issue create --title "..." --body "..." --label "..."
 ```
 
 Confirm the issue URL with the user before proceeding.
@@ -56,7 +56,8 @@ Do not proceed until the user explicitly approves (e.g. "looks good", "approved"
 Once the plan is approved, create a new branch from master:
 
 ```
-.claude/scripts/git-branch.sh feature/<short-description>
+git fetch origin
+git checkout -b feature/<short-description> origin/master
 ```
 
 ---
@@ -86,16 +87,18 @@ Fix any issues found before proceeding.
 
 ## Step 6 — Commit and push
 
-Stage and commit only the files you changed, then push:
+Stage only the files you changed and push:
 
 ```
-.claude/scripts/git-commit-push.sh "<commit message>" file1 file2 ...
+git add <file1> <file2> ...
+git commit -m "<clear commit message>"
+git push
 ```
 
 Create a PR using this format:
 
 ```
-.claude/scripts/pr-create.sh --title "<short imperative title>" --body "$(cat <<'EOF'
+gh pr create --title "<short imperative title>" --body "$(cat <<'EOF'
 ## What
 <1–3 sentences describing what changed and why>
 
@@ -105,7 +108,7 @@ Create a PR using this format:
 
 Closes #<issue-number>
 EOF
-)"
+)" --base master
 ```
 
 Return the PR URL to the user, then provide a concise summary of all changes made in the chat.
@@ -117,8 +120,8 @@ Return the PR URL to the user, then provide a concise summary of all changes mad
 When the user asks to handle PR comments, fetch them:
 
 ```
-.claude/scripts/pr-view.sh <pr-number>
-.claude/scripts/pr-comments.sh <pr-number>
+gh pr view <pr-number> --comments
+gh api repos/{owner}/{repo}/pulls/<pr-number>/comments
 ```
 
 For each comment:
@@ -127,11 +130,13 @@ For each comment:
 2. Make the code change
 3. Commit and push:
    ```
-   .claude/scripts/git-commit-push.sh "<message>" file1 file2 ...
+   git add <files>
+   git commit -m "<message>"
+   git push
    ```
 4. Reply to the comment thread with the commit SHA:
    ```
-   .claude/scripts/pr-comment-reply.sh <comment-id> "Fixed in <commit-sha>"
+   gh api repos/{owner}/{repo}/pulls/comments/<comment-id>/replies -f body="Fixed in <commit-sha>"
    ```
 
 ---
