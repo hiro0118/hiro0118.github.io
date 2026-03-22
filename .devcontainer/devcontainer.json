@@ -5,10 +5,11 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "22"
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "containerEnv": {
-    "GITHUB_PERSONAL_ACCESS_TOKEN": "${localEnv:GITHUB_PERSONAL_ACCESS_TOKEN}"
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
   },
   "postCreateCommand": "sudo apt-get update && sudo apt-get install -y direnv && echo 'eval \"$(direnv hook bash)\"' >> ~/.bashrc && mkdir -p ~/.config/direnv && printf '[whitelist]\\nprefix = [\"/workspaces\"]\\n' > ~/.config/direnv/direnv.toml && npm install && npm install -g @anthropic-ai/claude-code",
   "forwardPorts": [3000],

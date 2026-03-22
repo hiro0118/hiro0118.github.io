@@ -15,7 +15,7 @@ npm run deploy     # Build and deploy to GitHub Pages (gh-pages -d build)
 
 All environment and tooling changes (installing packages, global tools, VS Code extensions, etc.) must go into `.devcontainer/devcontainer.json`. Do not run `npm install` or any install commands directly in the shell or devcontainer terminal.
 
-Claude Code is used via Anthropic subscription — no `ANTHROPIC_API_KEY` is needed. `GITHUB_TOKEN` is passed from the local environment via `containerEnv` in `devcontainer.json`.
+Claude Code is used via Anthropic subscription — no `ANTHROPIC_API_KEY` is needed. `GITHUB_TOKEN` is passed from the local environment via `containerEnv` in `devcontainer.json` and used by `gh` for GitHub operations.
 
 ## Architecture
 
