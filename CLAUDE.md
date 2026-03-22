@@ -15,6 +15,8 @@ npm run deploy     # Build and deploy to GitHub Pages (gh-pages -d build)
 
 All environment and tooling changes (installing packages, global tools, VS Code extensions, etc.) must go into `.devcontainer/devcontainer.json`. Do not run `npm install` or any install commands directly in the shell or devcontainer terminal.
 
+Claude Code is used via Anthropic subscription — no `ANTHROPIC_API_KEY` is needed. `GITHUB_TOKEN` is passed from the local environment via `containerEnv` in `devcontainer.json`.
+
 ## Architecture
 
 This is a personal portfolio SPA built with Create React App, TypeScript, and Material-UI v5, hosted on GitHub Pages.
@@ -26,6 +28,7 @@ This is a personal portfolio SPA built with Create React App, TypeScript, and Ma
 **Navigation shell:** `MenuBar` wraps all pages — it renders the AppBar, side drawer, and `PageRouter`. To add a new page, register it in `src/pages/Pages.tsx` (the page registry) and add a route in `PageRouter.tsx`.
 
 **Tennis Courts page** (`src/pages/tokyo-sports-page/`) is the main feature:
+
 - Loads a ~3.8MB static JSON file (`application_data.json`) embedded in the bundle
 - Filters by date, time, and park using `Set<string>` selections stored in component state
 - `FilterAccordion` handles each filter category; filters are applied on button click, not live
