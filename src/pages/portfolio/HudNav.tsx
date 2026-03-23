@@ -16,17 +16,11 @@ function useIsMobile(breakpoint = 600) {
 
 const NAV_ITEMS = ["HERO", "BIO", "SKILLS", "PROJECTS"] as const;
 
-const NAV_LABELS_AC: Record<string, string> = {
-  HERO: "Home",
+const NAV_LABELS: Record<string, string> = {
+  HERO: "Hero",
   BIO: "About",
   SKILLS: "Skills",
   PROJECTS: "Projects",
-};
-const NAV_LABELS_COMIC: Record<string, string> = {
-  HERO: "HERO!",
-  BIO: "ORIGIN",
-  SKILLS: "POWERS",
-  PROJECTS: "MISSIONS",
 };
 
 export function HudNav() {
@@ -118,6 +112,8 @@ export function HudNav() {
         boxShadow: navShadow,
         transition: "background 0.4s, border-color 0.4s",
         boxSizing: "border-box",
+        overflow: "hidden",
+        maxWidth: "100vw",
       }}
     >
       {/* Row 1: logo + theme selector (mobile) / logo alone (desktop) */}
@@ -199,10 +195,7 @@ export function HudNav() {
       >
         {NAV_ITEMS.map((item) => {
           const isActive = active === item;
-          let label: string;
-          if (isComic) label = NAV_LABELS_COMIC[item];
-          else if (isCrossing) label = NAV_LABELS_AC[item];
-          else label = `[${item}]`;
+          const label = NAV_LABELS[item];
 
           /* ── per-theme button style ── */
           let btnBg: string;
@@ -226,8 +219,8 @@ export function HudNav() {
             btnRadius = "3px";
             btnWeight = 400;
             btnShadow = isActive ? "2px 2px 0 #555" : "none";
-            btnPadding = "5px 14px";
-            btnFontSize = "0.95rem";
+            btnPadding = isMobile ? "4px 8px" : "5px 14px";
+            btnFontSize = isMobile ? "0.82rem" : "0.95rem";
             btnLetterSpacing = "0.04em";
             btnBorderBottom = "none";
             btnTextShadow = "none";
@@ -238,8 +231,8 @@ export function HudNav() {
             btnRadius = "20px";
             btnWeight = 700;
             btnShadow = isActive ? `0 3px 0 #3a7e32` : "none";
-            btnPadding = "5px 14px";
-            btnFontSize = "0.82rem";
+            btnPadding = isMobile ? "4px 8px" : "5px 14px";
+            btnFontSize = isMobile ? "0.75rem" : "0.82rem";
             btnLetterSpacing = "0.01em";
             btnBorderBottom = "none";
             btnTextShadow = "none";

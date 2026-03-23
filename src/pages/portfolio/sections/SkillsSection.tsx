@@ -1,8 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { usePortfolioTheme } from "../ThemeContext";
+import { usePortfolioTheme, useThemeVariant } from "../ThemeContext";
 import { CardFrame } from "../CardFrame";
 import { SkillsAnimation } from "../SkillsAnimation";
+import { SectionHeading } from "../SectionHeading";
+import { tagContainer, tagItem } from "../animations";
 import { PortfolioTheme } from "../themes/types";
 
 interface SkillGroup {
@@ -37,107 +39,366 @@ const SKILL_GROUPS: SkillGroup[] = [
   },
 ];
 
-const tagContainer = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07 } },
-};
-const tagItem = {
-  hidden: { opacity: 0, scale: 0.5, y: 10 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { type: "spring" as const, stiffness: 380, damping: 20 },
-  },
-};
-
-function SectionHeading({
-  label,
+function ComicSkillCard({
+  group,
+  delay,
   theme,
-  maxWidth = "900px",
 }: {
-  label: string;
+  group: SkillGroup;
+  delay: number;
   theme: PortfolioTheme;
-  maxWidth?: string;
 }) {
-  if (theme.id === "comic") {
-    return (
-      <div style={{ width: "100%", maxWidth, marginBottom: "2.5rem" }}>
-        <div
-          style={{
-            display: "inline-block",
-            background: theme.accent,
-            border: "3px solid #1a1a1a",
-            boxShadow: "4px 4px 0 #1a1a1a",
-            padding: "0.4rem 1.2rem",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: theme.fontHeading,
-              fontWeight: 400,
-              fontSize: "clamp(1.4rem, 4vw, 2rem)",
-              color: theme.primary,
-              letterSpacing: "0.04em",
-            }}
-          >
-            {label}
-          </span>
-        </div>
-      </div>
-    );
-  }
-
-  if (theme.id === "crossing") {
-    return (
+  return (
+    <>
       <div
         style={{
-          width: "100%",
-          maxWidth,
-          marginBottom: "2.5rem",
+          background: group.acColor,
+          padding: "0.9rem 1.2rem",
           display: "flex",
           alignItems: "center",
-          gap: "0.8rem",
+          gap: "0.6rem",
+          borderBottom: `2px solid ${theme.border}`,
         }}
       >
-        <span style={{ fontSize: "1.6rem" }}>⭐</span>
+        <motion.span
+          initial={{ scale: 0, rotate: -180 }}
+          whileInView={{ scale: 1, rotate: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 350,
+            damping: 12,
+            delay: delay + 0.15,
+          }}
+          viewport={{ once: true }}
+          style={{ fontSize: "1.8rem", display: "inline-block" }}
+        >
+          {group.emoji}
+        </motion.span>
+        <span
+          style={{
+            fontFamily: theme.fontHeading,
+            fontWeight: 400,
+            fontSize: "1.4rem",
+            color: theme.text,
+            textShadow: "1px 1px 0 rgba(255,255,255,0.4)",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {group.category}
+        </span>
+      </div>
+
+      <div style={{ padding: "1rem 1.2rem 1.2rem" }}>
+        <motion.div
+          variants={tagContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.4rem",
+            marginBottom: "1rem",
+          }}
+        >
+          {group.skills.map((skill) => (
+            <motion.span
+              key={skill}
+              variants={tagItem}
+              style={{
+                fontFamily: theme.fontBody,
+                fontWeight: 700,
+                fontSize: "0.82rem",
+                color: theme.text,
+                background: "white",
+                border: `2px solid ${theme.border}`,
+                boxShadow: `2px 2px 0 ${theme.border}`,
+                padding: "2px 10px",
+              }}
+            >
+              {skill}
+            </motion.span>
+          ))}
+        </motion.div>
+
+        <div>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontWeight: 700,
+              fontSize: "0.8rem",
+              color: theme.cardDim,
+              marginBottom: "6px",
+              textTransform: "uppercase",
+            }}
+          >
+            Power Level
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: "18px",
+              border: `2px solid ${theme.border}`,
+              background: "#e0e0e0",
+              position: "relative",
+              boxShadow: `2px 2px 0 ${theme.border}`,
+              overflow: "hidden",
+            }}
+          >
+            <motion.div
+              initial={{ width: "0%" }}
+              whileInView={{ width: `${group.power}%` }}
+              transition={{
+                duration: 1.0,
+                ease: [0.25, 0.46, 0.45, 0.94],
+                delay: 0.4,
+              }}
+              viewport={{ once: true, amount: 0.8 }}
+              style={{
+                height: "100%",
+                background: group.acColor,
+                borderRight:
+                  group.power < 100 ? `2px solid ${theme.border}` : "none",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontWeight: 700,
+              fontSize: "0.78rem",
+              color: theme.text,
+              marginTop: "4px",
+              textAlign: "right",
+            }}
+          >
+            {group.power}%
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function CrossingSkillCard({
+  group,
+  delay,
+  theme,
+}: {
+  group: SkillGroup;
+  delay: number;
+  theme: PortfolioTheme;
+}) {
+  const filled = Math.round(group.power / 10);
+
+  return (
+    <>
+      <div
+        style={{
+          background: group.acColor,
+          padding: "1rem 1.2rem",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.6rem",
+        }}
+      >
+        <motion.span
+          initial={{ scale: 0, rotate: -180 }}
+          whileInView={{ scale: 1, rotate: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 350,
+            damping: 12,
+            delay: delay + 0.15,
+          }}
+          viewport={{ once: true }}
+          style={{ fontSize: "1.8rem", display: "inline-block" }}
+        >
+          {group.emoji}
+        </motion.span>
         <span
           style={{
             fontFamily: theme.fontHeading,
             fontWeight: 800,
-            fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
-            color: theme.text,
+            fontSize: "1rem",
+            color: "white",
+            textShadow: "0 1px 3px rgba(0,0,0,0.2)",
           }}
         >
-          {label.replace("✿  ", "")}
+          {group.category}
         </span>
-        <div
-          style={{
-            flex: 1,
-            height: "3px",
-            background: `${theme.secondary}55`,
-            borderRadius: "2px",
-          }}
-        />
       </div>
-    );
-  }
 
+      <div style={{ padding: "1rem 1.2rem 1.2rem" }}>
+        <motion.div
+          variants={tagContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.4rem",
+            marginBottom: "1rem",
+          }}
+        >
+          {group.skills.map((skill) => (
+            <motion.span
+              key={skill}
+              variants={tagItem}
+              style={{
+                fontFamily: theme.fontBody,
+                fontWeight: 600,
+                fontSize: "0.82rem",
+                color: theme.cardText,
+                background: `${group.acColor}40`,
+                border: `1.5px solid ${group.acColor}`,
+                padding: "3px 10px",
+                borderRadius: "12px",
+              }}
+            >
+              {skill}
+            </motion.span>
+          ))}
+        </motion.div>
+
+        <div>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontWeight: 600,
+              fontSize: "0.8rem",
+              color: theme.cardDim,
+              marginBottom: "4px",
+            }}
+          >
+            Proficiency
+          </div>
+          <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+            {Array.from({ length: 5 }).map((_, i) => {
+              const isFilled = i < Math.round(filled / 2);
+              return (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                  whileInView={{
+                    opacity: isFilled ? 1 : 0.2,
+                    scale: 1,
+                    rotate: 0,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 450,
+                    damping: 12,
+                    delay: 0.3 + i * 0.1,
+                  }}
+                  viewport={{ once: true }}
+                  style={{
+                    fontSize: "1.2rem",
+                    display: "inline-block",
+                    filter: isFilled ? "none" : "grayscale(1)",
+                  }}
+                >
+                  ⭐
+                </motion.span>
+              );
+            })}
+            <span
+              style={{
+                fontFamily: theme.fontBody,
+                fontWeight: 700,
+                fontSize: "0.8rem",
+                color: theme.cardDim,
+                marginLeft: "4px",
+              }}
+            >
+              {group.power}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function HudSkillCard({
+  group,
+  delay,
+  theme,
+  hudCount,
+}: {
+  group: SkillGroup;
+  delay: number;
+  theme: PortfolioTheme;
+  hudCount: number;
+}) {
   return (
-    <div
-      style={{
-        fontFamily: theme.fontHeading,
-        fontSize: "clamp(1rem, 2vw, 1.2rem)",
-        color: theme.primary,
-        letterSpacing: "0.2em",
-        marginBottom: "3rem",
-        borderBottom: `1px solid ${theme.border}`,
-        paddingBottom: "0.5rem",
-        width: "100%",
-        maxWidth,
-      }}
-    >
-      {label}
+    <div style={{ padding: "1.5rem" }}>
+      <div
+        style={{
+          fontFamily: theme.fontHeading,
+          fontSize: "0.8rem",
+          color: theme.primary,
+          letterSpacing: "0.2em",
+          marginBottom: "1rem",
+          borderBottom: `1px solid ${theme.border}`,
+          paddingBottom: "0.5rem",
+        }}
+      >
+        {group.category}
+      </div>
+      <motion.div
+        variants={tagContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "0.4rem",
+          marginBottom: "1.2rem",
+        }}
+      >
+        {group.skills.map((skill) => (
+          <motion.span
+            key={skill}
+            variants={tagItem}
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: "0.82rem",
+              color: theme.cardText,
+              letterSpacing: "0.05em",
+            }}
+          >
+            ◆ {skill}
+          </motion.span>
+        ))}
+      </motion.div>
+      <div
+        style={{
+          fontFamily: theme.fontBody,
+          fontSize: "0.75rem",
+          color: theme.cardDim,
+          marginBottom: "4px",
+          letterSpacing: "0.1em",
+        }}
+      >
+        POWER LEVEL
+      </div>
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.3 }}
+        viewport={{ once: true }}
+        style={{
+          fontFamily: theme.fontBody,
+          fontSize: "0.85rem",
+          color: theme.secondary,
+          letterSpacing: "3px",
+        }}
+      >
+        {`[${"█".repeat(Math.round(hudCount / 10))}${"░".repeat(10 - Math.round(hudCount / 10))}] ${hudCount}%`}
+      </motion.div>
     </div>
   );
 }
@@ -153,9 +414,7 @@ function SkillGroupCard({
   delay: number;
   theme: PortfolioTheme;
 }) {
-  const isCrossing = theme.id === "crossing";
-  const isComic = theme.id === "comic";
-  const filled = Math.round(group.power / 10);
+  const { isCrossing, isComic } = useThemeVariant();
 
   const cardRef = useRef<HTMLDivElement>(null);
   const inView = useInView(cardRef, { once: true, amount: 0.4 });
@@ -203,332 +462,16 @@ function SkillGroupCard({
       <CardFrame theme={theme} size={10} />
 
       {isComic ? (
-        <>
-          <div
-            style={{
-              background: group.acColor,
-              padding: "0.9rem 1.2rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.6rem",
-              borderBottom: "2px solid #1a1a1a",
-            }}
-          >
-            <motion.span
-              initial={{ scale: 0, rotate: -180 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 350,
-                damping: 12,
-                delay: delay + 0.15,
-              }}
-              viewport={{ once: true }}
-              style={{ fontSize: "1.8rem", display: "inline-block" }}
-            >
-              {group.emoji}
-            </motion.span>
-            <span
-              style={{
-                fontFamily: theme.fontHeading,
-                fontWeight: 400,
-                fontSize: "1.4rem",
-                color: "#1a1a1a",
-                textShadow: "1px 1px 0 rgba(255,255,255,0.4)",
-                letterSpacing: "0.04em",
-              }}
-            >
-              {group.category}
-            </span>
-          </div>
-
-          <div style={{ padding: "1rem 1.2rem 1.2rem" }}>
-            <motion.div
-              variants={tagContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.4rem",
-                marginBottom: "1rem",
-              }}
-            >
-              {group.skills.map((skill) => (
-                <motion.span
-                  key={skill}
-                  variants={tagItem}
-                  style={{
-                    fontFamily: theme.fontBody,
-                    fontWeight: 700,
-                    fontSize: "0.82rem",
-                    color: "#1a1a1a",
-                    background: "white",
-                    border: "2px solid #1a1a1a",
-                    boxShadow: "2px 2px 0 #1a1a1a",
-                    padding: "2px 10px",
-                  }}
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </motion.div>
-
-            <div>
-              <div
-                style={{
-                  fontFamily: theme.fontBody,
-                  fontWeight: 700,
-                  fontSize: "0.8rem",
-                  color: theme.cardDim,
-                  marginBottom: "6px",
-                  textTransform: "uppercase",
-                }}
-              >
-                Power Level
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: "18px",
-                  border: "2px solid #1a1a1a",
-                  background: "#e0e0e0",
-                  position: "relative",
-                  boxShadow: "2px 2px 0 #1a1a1a",
-                  overflow: "hidden",
-                }}
-              >
-                <motion.div
-                  initial={{ width: "0%" }}
-                  whileInView={{ width: `${group.power}%` }}
-                  transition={{
-                    duration: 1.0,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                    delay: 0.4,
-                  }}
-                  viewport={{ once: true, amount: 0.8 }}
-                  style={{
-                    height: "100%",
-                    background: group.acColor,
-                    borderRight:
-                      group.power < 100 ? "2px solid #1a1a1a" : "none",
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  fontFamily: theme.fontBody,
-                  fontWeight: 700,
-                  fontSize: "0.78rem",
-                  color: "#1a1a1a",
-                  marginTop: "4px",
-                  textAlign: "right",
-                }}
-              >
-                {group.power}%
-              </div>
-            </div>
-          </div>
-        </>
+        <ComicSkillCard group={group} delay={delay} theme={theme} />
       ) : isCrossing ? (
-        <>
-          <div
-            style={{
-              background: group.acColor,
-              padding: "1rem 1.2rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.6rem",
-            }}
-          >
-            <motion.span
-              initial={{ scale: 0, rotate: -180 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 350,
-                damping: 12,
-                delay: delay + 0.15,
-              }}
-              viewport={{ once: true }}
-              style={{ fontSize: "1.8rem", display: "inline-block" }}
-            >
-              {group.emoji}
-            </motion.span>
-            <span
-              style={{
-                fontFamily: theme.fontHeading,
-                fontWeight: 800,
-                fontSize: "1rem",
-                color: "white",
-                textShadow: "0 1px 3px rgba(0,0,0,0.2)",
-              }}
-            >
-              {group.category}
-            </span>
-          </div>
-
-          <div style={{ padding: "1rem 1.2rem 1.2rem" }}>
-            <motion.div
-              variants={tagContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.4rem",
-                marginBottom: "1rem",
-              }}
-            >
-              {group.skills.map((skill) => (
-                <motion.span
-                  key={skill}
-                  variants={tagItem}
-                  style={{
-                    fontFamily: theme.fontBody,
-                    fontWeight: 600,
-                    fontSize: "0.82rem",
-                    color: theme.cardText,
-                    background: `${group.acColor}40`,
-                    border: `1.5px solid ${group.acColor}`,
-                    padding: "3px 10px",
-                    borderRadius: "12px",
-                  }}
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </motion.div>
-
-            <div>
-              <div
-                style={{
-                  fontFamily: theme.fontBody,
-                  fontWeight: 600,
-                  fontSize: "0.8rem",
-                  color: theme.cardDim,
-                  marginBottom: "4px",
-                }}
-              >
-                Proficiency
-              </div>
-              <div
-                style={{ display: "flex", gap: "3px", alignItems: "center" }}
-              >
-                {Array.from({ length: 5 }).map((_, i) => {
-                  const isFilled = i < Math.round(filled / 2);
-                  return (
-                    <motion.span
-                      key={i}
-                      initial={{ opacity: 0, scale: 0, rotate: -180 }}
-                      whileInView={{
-                        opacity: isFilled ? 1 : 0.2,
-                        scale: 1,
-                        rotate: 0,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 450,
-                        damping: 12,
-                        delay: 0.3 + i * 0.1,
-                      }}
-                      viewport={{ once: true }}
-                      style={{
-                        fontSize: "1.2rem",
-                        display: "inline-block",
-                        filter: isFilled ? "none" : "grayscale(1)",
-                      }}
-                    >
-                      ⭐
-                    </motion.span>
-                  );
-                })}
-                <span
-                  style={{
-                    fontFamily: theme.fontBody,
-                    fontWeight: 700,
-                    fontSize: "0.8rem",
-                    color: theme.cardDim,
-                    marginLeft: "4px",
-                  }}
-                >
-                  {group.power}%
-                </span>
-              </div>
-            </div>
-          </div>
-        </>
+        <CrossingSkillCard group={group} delay={delay} theme={theme} />
       ) : (
-        /* ── HUD ── */
-        <div style={{ padding: "1.5rem" }}>
-          <div
-            style={{
-              fontFamily: theme.fontHeading,
-              fontSize: "0.8rem",
-              color: theme.primary,
-              letterSpacing: "0.2em",
-              marginBottom: "1rem",
-              borderBottom: `1px solid ${theme.border}`,
-              paddingBottom: "0.5rem",
-            }}
-          >
-            {group.category}
-          </div>
-          <motion.div
-            variants={tagContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.4rem",
-              marginBottom: "1.2rem",
-            }}
-          >
-            {group.skills.map((skill) => (
-              <motion.span
-                key={skill}
-                variants={tagItem}
-                style={{
-                  fontFamily: theme.fontBody,
-                  fontSize: "0.82rem",
-                  color: theme.cardText,
-                  letterSpacing: "0.05em",
-                }}
-              >
-                ◆ {skill}
-              </motion.span>
-            ))}
-          </motion.div>
-          <div
-            style={{
-              fontFamily: theme.fontBody,
-              fontSize: "0.75rem",
-              color: theme.cardDim,
-              marginBottom: "4px",
-              letterSpacing: "0.1em",
-            }}
-          >
-            POWER LEVEL
-          </div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            viewport={{ once: true }}
-            style={{
-              fontFamily: theme.fontBody,
-              fontSize: "0.85rem",
-              color: theme.secondary,
-              letterSpacing: "3px",
-            }}
-          >
-            {`[${"█".repeat(Math.round(hudCount / 10))}${"░".repeat(10 - Math.round(hudCount / 10))}] ${hudCount}%`}
-          </motion.div>
-        </div>
+        <HudSkillCard
+          group={group}
+          delay={delay}
+          theme={theme}
+          hudCount={hudCount}
+        />
       )}
     </motion.div>
   );
@@ -536,8 +479,7 @@ function SkillGroupCard({
 
 export function SkillsSection() {
   const { theme } = usePortfolioTheme();
-  const isCrossing = theme.id === "crossing";
-  const isComic = theme.id === "comic";
+  const { isCrossing, isComic } = useThemeVariant();
 
   let sectionBg: string;
   if (isComic) sectionBg = "#FFE8E8";
@@ -573,13 +515,15 @@ export function SkillsSection() {
         <SectionHeading
           label={theme.sectionLabel("02", "Skills")}
           theme={theme}
+          emoji="⭐"
         />
       </motion.div>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+          gridTemplateColumns:
+            "repeat(auto-fill, minmax(min(260px, 100%), 1fr))",
           gap: isCrossing || isComic ? "2rem" : "1.5rem",
           maxWidth: "900px",
           width: "100%",
@@ -606,7 +550,11 @@ export function SkillsSection() {
           fontFamily: isComic ? theme.fontHeading : theme.fontBody,
           fontWeight: isCrossing || isComic ? 700 : 400,
           fontSize: isComic ? "1.2rem" : isCrossing ? "1rem" : "0.82rem",
-          color: isComic ? "#1a1a1a" : isCrossing ? theme.secondary : theme.dim,
+          color: isComic
+            ? theme.text
+            : isCrossing
+              ? theme.secondary
+              : theme.dim,
           letterSpacing: isComic ? "0.05em" : isCrossing ? "0.02em" : "0.15em",
           textAlign: "center",
         }}

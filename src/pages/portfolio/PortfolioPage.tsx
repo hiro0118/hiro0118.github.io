@@ -17,7 +17,9 @@ function PortfolioInner() {
   }, [theme.bg]);
 
   return (
-    <div style={{ background: theme.bg, minHeight: "100vh" }}>
+    <div
+      style={{ background: theme.bg, minHeight: "100vh", overflowX: "hidden" }}
+    >
       <HudNav />
       <HeroSection />
       <BioSection />
