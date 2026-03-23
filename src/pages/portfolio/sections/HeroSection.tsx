@@ -244,6 +244,7 @@ export function HeroSection() {
         style={{
           position: "relative",
           height: "100vh",
+          paddingTop: "56px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -401,6 +402,7 @@ export function HeroSection() {
       style={{
         position: "relative",
         height: "100vh",
+        paddingTop: "56px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -534,7 +536,7 @@ export function HeroSection() {
           flexDirection: "column",
           alignItems: "center",
           gap: isCrossing ? "1.8rem" : "1.5rem",
-          padding: isCrossing ? "2rem 2rem 100px" : "2rem",
+          padding: "2rem",
         }}
       >
         {isCrossing ? (

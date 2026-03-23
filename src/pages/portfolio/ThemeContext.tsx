@@ -32,3 +32,12 @@ export function usePortfolioTheme(): ThemeCtx {
     );
   return ctx;
 }
+
+export function useThemeVariant() {
+  const { theme } = usePortfolioTheme();
+  return {
+    isComic: theme.id === "comic",
+    isCrossing: theme.id === "crossing",
+    isHud: theme.id === "hud",
+  };
+}

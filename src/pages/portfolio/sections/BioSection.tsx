@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { usePortfolioTheme } from "../ThemeContext";
+import { usePortfolioTheme, useThemeVariant } from "../ThemeContext";
 import { CardFrame } from "../CardFrame";
-import { WalkCharacter } from "../SectionCharacter";
+import { FloatCharacter } from "../SectionCharacter";
+import { SectionHeading } from "../SectionHeading";
 import { PortfolioTheme } from "../themes/types";
 
 const DOSSIER = [
@@ -18,7 +19,7 @@ const SKILL_METERS = [
   { label: "DevOps", pct: 65 },
 ];
 
-function StatBar({
+function ComicStatBar({
   label,
   pct,
   theme,
@@ -27,90 +28,100 @@ function StatBar({
   pct: number;
   theme: PortfolioTheme;
 }) {
-  const isCrossing = theme.id === "crossing";
-  const isComic = theme.id === "comic";
+  const barColor =
+    pct >= 85 ? theme.primary : pct >= 75 ? theme.accent : theme.secondary;
+  return (
+    <div style={{ marginBottom: "0.85rem" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontFamily: theme.fontBody,
+          fontWeight: 700,
+          fontSize: "0.9rem",
+          color: theme.cardText,
+          marginBottom: "4px",
+        }}
+      >
+        <span>{label.toUpperCase()}</span>
+        <span style={{ color: barColor }}>{pct}%</span>
+      </div>
+      <div
+        style={{
+          width: "100%",
+          height: "18px",
+          border: `2px solid ${theme.border}`,
+          background: "#e0e0e0",
+          position: "relative",
+          boxShadow: `2px 2px 0 ${theme.border}`,
+        }}
+      >
+        <div
+          style={{
+            width: `${pct}%`,
+            height: "100%",
+            background: barColor,
+            borderRight: pct < 100 ? `2px solid ${theme.border}` : "none",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
 
-  /* ── Comic chunky bar ── */
-  if (isComic) {
-    const barColor =
-      pct >= 85 ? theme.primary : pct >= 75 ? theme.accent : theme.secondary;
-    return (
-      <div style={{ marginBottom: "0.85rem" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: theme.fontBody,
-            fontWeight: 700,
-            fontSize: "0.9rem",
-            color: theme.cardText,
-            marginBottom: "4px",
-          }}
-        >
-          <span>{label.toUpperCase()}</span>
-          <span style={{ color: barColor }}>{pct}%</span>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            height: "18px",
-            border: "2px solid #1a1a1a",
-            background: "#e0e0e0",
-            position: "relative",
-            boxShadow: "2px 2px 0 #1a1a1a",
-          }}
-        >
-          <div
+function CrossingStatBar({
+  label,
+  pct,
+  theme,
+}: {
+  label: string;
+  pct: number;
+  theme: PortfolioTheme;
+}) {
+  const total = 10;
+  const filled = Math.round(pct / 10);
+  return (
+    <div style={{ marginBottom: "0.75rem" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontFamily: theme.fontBody,
+          fontWeight: 600,
+          fontSize: "0.9rem",
+          color: theme.cardDim,
+          marginBottom: "3px",
+        }}
+      >
+        <span>{label}</span>
+      </div>
+      <div style={{ display: "flex", gap: "3px", flexWrap: "wrap" }}>
+        {Array.from({ length: total }).map((_, i) => (
+          <span
+            key={i}
             style={{
-              width: `${pct}%`,
-              height: "100%",
-              background: barColor,
-              borderRight: pct < 100 ? "2px solid #1a1a1a" : "none",
+              fontSize: "1.1rem",
+              opacity: i < filled ? 1 : 0.2,
+              filter: i < filled ? "none" : "grayscale(1)",
             }}
-          />
-        </div>
+          >
+            ♥
+          </span>
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  /* ── Animal Crossing hearts ── */
-  if (isCrossing) {
-    const total = 10;
-    const filled = Math.round(pct / 10);
-    return (
-      <div style={{ marginBottom: "0.75rem" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: theme.fontBody,
-            fontWeight: 600,
-            fontSize: "0.9rem",
-            color: theme.cardDim,
-            marginBottom: "3px",
-          }}
-        >
-          <span>{label}</span>
-        </div>
-        <div style={{ display: "flex", gap: "3px", flexWrap: "wrap" }}>
-          {Array.from({ length: total }).map((_, i) => (
-            <span
-              key={i}
-              style={{
-                fontSize: "1.1rem",
-                opacity: i < filled ? 1 : 0.2,
-                filter: i < filled ? "none" : "grayscale(1)",
-              }}
-            >
-              ♥
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  /* ── HUD block bar ── */
+function HudStatBar({
+  label,
+  pct,
+  theme,
+}: {
+  label: string;
+  pct: number;
+  theme: PortfolioTheme;
+}) {
   return (
     <div style={{ marginBottom: "0.6rem" }}>
       <div
@@ -139,101 +150,26 @@ function StatBar({
   );
 }
 
-function SectionHeading({
+function StatBar({
   label,
+  pct,
   theme,
-  maxWidth = "900px",
 }: {
   label: string;
+  pct: number;
   theme: PortfolioTheme;
-  maxWidth?: string;
 }) {
-  if (theme.id === "comic") {
-    return (
-      <div style={{ width: "100%", maxWidth, marginBottom: "2.5rem" }}>
-        <div
-          style={{
-            display: "inline-block",
-            background: theme.accent,
-            border: "3px solid #1a1a1a",
-            boxShadow: "4px 4px 0 #1a1a1a",
-            padding: "0.4rem 1.2rem",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: theme.fontHeading,
-              fontWeight: 400,
-              fontSize: "clamp(1.4rem, 4vw, 2rem)",
-              color: theme.primary,
-              letterSpacing: "0.04em",
-            }}
-          >
-            {label}
-          </span>
-        </div>
-      </div>
-    );
-  }
+  const { isCrossing, isComic } = useThemeVariant();
 
-  if (theme.id === "crossing") {
-    return (
-      <div
-        style={{
-          width: "100%",
-          maxWidth,
-          marginBottom: "2.5rem",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.8rem",
-        }}
-      >
-        <span style={{ fontSize: "1.6rem" }}>🌿</span>
-        <span
-          style={{
-            fontFamily: theme.fontHeading,
-            fontWeight: 800,
-            fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
-            color: theme.text,
-          }}
-        >
-          {label.replace("✿  ", "")}
-        </span>
-        <div
-          style={{
-            flex: 1,
-            height: "3px",
-            background: `${theme.secondary}55`,
-            borderRadius: "2px",
-          }}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div
-      style={{
-        fontFamily: theme.fontHeading,
-        fontSize: "clamp(1rem, 2vw, 1.2rem)",
-        color: theme.primary,
-        letterSpacing: "0.2em",
-        marginBottom: "3rem",
-        borderBottom: `1px solid ${theme.border}`,
-        paddingBottom: "0.5rem",
-        width: "100%",
-        maxWidth,
-      }}
-    >
-      {label}
-    </div>
-  );
+  if (isComic) return <ComicStatBar label={label} pct={pct} theme={theme} />;
+  if (isCrossing)
+    return <CrossingStatBar label={label} pct={pct} theme={theme} />;
+  return <HudStatBar label={label} pct={pct} theme={theme} />;
 }
 
 export function BioSection() {
   const { theme } = usePortfolioTheme();
-  const isCrossing = theme.id === "crossing";
-  const isComic = theme.id === "comic";
+  const { isCrossing, isComic } = useThemeVariant();
 
   let sectionBg: string;
   if (isComic) sectionBg = "#FFFFFF";
@@ -245,20 +181,32 @@ export function BioSection() {
     <section
       id="bio"
       style={{
+        position: "relative",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         padding: "6rem 2rem 4rem",
+        overflow: "hidden",
         background: sectionBg,
         transition: "background 0.5s",
       }}
     >
-      <SectionHeading
-        label={theme.sectionLabel("01", "About Me")}
-        theme={theme}
-      />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          maxWidth: "900px",
+        }}
+      >
+        <SectionHeading
+          label={theme.sectionLabel("01", "About Me")}
+          theme={theme}
+          emoji="🌿"
+        />
+      </div>
 
       <div
         style={{
@@ -268,6 +216,8 @@ export function BioSection() {
           width: "100%",
           flexWrap: "wrap",
           alignItems: "flex-start",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* Avatar */}
@@ -293,8 +243,8 @@ export function BioSection() {
                   background: theme.accent,
                   position: "relative",
                   overflow: "hidden",
-                  border: "4px solid #1a1a1a",
-                  boxShadow: "5px 5px 0 #1a1a1a",
+                  border: `4px solid ${theme.border}`,
+                  boxShadow: `5px 5px 0 ${theme.border}`,
                 }}
               >
                 <div
@@ -325,8 +275,8 @@ export function BioSection() {
                   fontSize: "1rem",
                   background: theme.primary,
                   color: "white",
-                  border: "2px solid #1a1a1a",
-                  boxShadow: "2px 2px 0 #1a1a1a",
+                  border: `2px solid ${theme.border}`,
+                  boxShadow: `2px 2px 0 ${theme.border}`,
                   padding: "2px 12px",
                   letterSpacing: "0.04em",
                 }}
@@ -460,7 +410,7 @@ export function BioSection() {
               style={{
                 background: theme.primary,
                 padding: "0.8rem 1.4rem",
-                borderBottom: "3px solid #1a1a1a",
+                borderBottom: `3px solid ${theme.border}`,
               }}
             >
               <div
@@ -470,7 +420,7 @@ export function BioSection() {
                   fontSize: "1.3rem",
                   color: "white",
                   letterSpacing: "0.04em",
-                  textShadow: "1px 1px 0 #1a1a1a",
+                  textShadow: `1px 1px 0 ${theme.border}`,
                 }}
               >
                 ORIGIN STORY
@@ -576,8 +526,8 @@ export function BioSection() {
         </motion.div>
       </div>
 
-      {/* Walking character */}
-      <WalkCharacter />
+      {/* Floating shapes */}
+      <FloatCharacter />
     </section>
   );
 }
